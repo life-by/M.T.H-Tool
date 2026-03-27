@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>রিমোট কন্ট্রোল বট - কমান্ড তালিকা</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #d9534f;
+            --background-color: #f4f7f6;
+            --card-background: #ffffff;
+            --text-color: #333;
+            --border-color: #ddd;
+            --header-bg: #007bff;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 15px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background-color: var(--card-background);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+        h2 {
+            color: var(--secondary-color);
+            border-bottom-color: var(--secondary-color);
+            border-bottom-style: solid;
+            border-bottom-width: 2px;
+            margin-top: 40px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+            vertical-align: middle;
+        }
+        th {
+            background-color: var(--header-bg);
+            color: white;
+            font-size: 16px;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        code {
+            background-color: #e3e6e8;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #c7254e;
+            word-break: break-all;
+        }
+        .description {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .feature-name {
+            font-weight: bold;
+        }
+
+        /* --- মোবাইল ডিভাইসের জন্য রেসপন্সিভ স্টাইল --- */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            h2 {
+                font-size: 1.2rem;
+            }
+            /* টেবিলকে কার্ড ভিউতে রূপান্তর */
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            tr {
+                border: 1px solid var(--border-color);
+                margin-bottom: 15px;
+                border-radius: 5px;
+                background-color: #fff;
+            }
+            td {
+                border: none;
+                border-bottom: 1px solid #eee;
+                position: relative;
+                padding-left: 50%;
+                text-align: right;
+                min-height: 30px; /* To align content properly */
+            }
+            td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                font-weight: bold;
+                text-align: left;
+            }
+            td:last-child {
+                border-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>রিমোট কন্ট্রোল বট - কমান্ড তালিকা</h1>
+
+        <!-- সিস্টেম মনিটরিং এবং তথ্য সংগ্রহ -->
+        <h2>সিস্টেম মনিটরিং ও তথ্য</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ফিচার</th>
+                    <th>কমান্ড</th>
+                    <th>বর্ণনা</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">সিস্টেম স্ট্যাটাস</td>
+                    <td data-label="কমান্ড"><code>/status</code></td>
+                    <td data-label="বর্ণনা" class="description">CPU, RAM এবং ডিস্ক ব্যবহারের বর্তমান অবস্থা দেখায়।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">সক্রিয় অ্যাপ্লিকেশন</td>
+                    <td data-label="কমান্ড"><code>/apps</code></td>
+                    <td data-label="বর্ণনা" class="description">কম্পিউটারে বর্তমানে চলমান সমস্ত অ্যাপ্লিকেশনের তালিকা দেখায়।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">ক্লিপবোর্ড দেখুন</td>
+                    <td data-label="কমান্ড"><code>/clipboard</code></td>
+                    <td data-label="বর্ণনা" class="description">ক্লিপবোর্ডে কপি করা সর্বশেষ টেক্সট দেখায়।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">ব্রাউজার হিস্টোরি</td>
+                    <td data-label="কমান্ড"><code>/history</code></td>
+                    <td data-label="বর্ণনা" class="description">গুগল ক্রোম ব্রাউজারের সর্বশেষ ভিজিট করা ওয়েবসাইটের তালিকা দেখায়।</td>
+                </tr>
+                 <tr>
+                    <td data-label="ফিচার" class="feature-name">বর্তমান ইউজার</td>
+                    <td data-label="কমান্ড"><code>/current_user</code></td>
+                    <td data-label="বর্ণনা" class="description">বর্তমানে কম্পিউটারে কোন ইউজার লগইন করা আছে তা দেখায়।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">সকল ইউজার</td>
+                    <td data-label="কমান্ড"><code>/list_users</code></td>
+                    <td data-label="বর্ণনা" class="description">সিস্টেমের সমস্ত লোকাল ইউজারের তালিকা দেখায়।</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- নজরদারি এবং ফাইল সিস্টেম -->
+        <h2>নজরদারি ও ফাইল সিস্টেম</h2>
+        <table>
+             <thead>
+                <tr>
+                    <th>ফিচার</th>
+                    <th>কমান্ড</th>
+                    <th>বর্ণনা</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">স্ক্রিনশট</td>
+                    <td data-label="কমান্ড"><code>/screenshot</code></td>
+                    <td data-label="বর্ণনা" class="description">রিমোট কম্পিউটারের সম্পূর্ণ স্ক্রিনের একটি ছবি তুলে পাঠায়।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">ফাইল ও ফোল্ডার ব্রাউজ</td>
+                    <td data-label="কমান্ড"><code>/ls [ফোল্ডারের পাথ]</code></td>
+                    <td data-label="বর্ণনা" class="description">নির্দিষ্ট ফোল্ডারের ফাইল ও ফোল্ডারের তালিকা দেখায়। পাথ না দিলে ড্রাইভ তালিকা দেখাবে।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">ফাইল ওপেন</td>
+                    <td data-label="কমান্ড"><code>/open_file [ফাইলের পাথ]</code></td>
+                    <td data-label="বর্ণনা" class="description">দূর থেকে যেকোনো ফাইল বা অ্যাপ্লিকেশন চালু করে।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">ফাইল কন্টেন্ট দেখুন</td>
+                    <td data-label="কমান্ড"><code>/cat [ফাইলের পাথ]</code></td>
+                    <td data-label="বর্ণনা" class="description">যেকোনো টেক্সট ফাইলের ভেতরের লেখা পড়ে দেখায়।</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- রিমোট কন্ট্রোল ও ম্যানেজমেন্ট -->
+        <h2>রিমোট কন্ট্রোল ও ম্যানেজমেন্ট</h2>
+        <table>
+             <thead>
+                <tr>
+                    <th>ফিচার</th>
+                    <th>কমান্ড</th>
+                    <th>বর্ণনা</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">রিমোট শেল</td>
+                    <td data-label="কমান্ড"><code>/cmd [আপনার কমান্ড]</code></td>
+                    <td data-label="বর্ণনা" class="description">যেকোনো CMD কমান্ড (যেমন: <code>ipconfig</code>) চালিয়ে তার ফলাফল দেখায়।</td>
+                </tr>
+                 <tr>
+                    <td data-label="ফিচার" class="feature-name">পাসওয়ার্ড পরিবর্তন</td>
+                    <td data-label="কমান্ড"><code>/change_pass [ইউজার] [পাস]</code></td>
+                    <td data-label="বর্ণনা" class="description">নির্দিষ্ট ইউজারের পাসওয়ার্ড পরিবর্তন করে (অ্যাডমিন প্রিভিলেজ প্রয়োজন)।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">অ্যাপ্লিকেশন বন্ধ</td>
+                    <td data-label="কমান্ড"><code>/kill [অ্যাপের নাম বা PID]</code></td>
+                    <td data-label="বর্ণনা" class="description">চলমান কোনো অ্যাপ্লিকেশনকে জোর করে বন্ধ করে দেয়।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">শাটডাউন</td>
+                    <td data-label="কমান্ড"><code>/shutdown</code></td>
+                    <td data-label="বর্ণনা" class="description">কম্পিউটারকে ১ মিনিট পর শাটডাউন করার কমান্ড পাঠায়।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">রিস্টার্ট</td>
+                    <td data-label="কমান্ড"><code>/restart</code></td>
+                    <td data-label="বর্ণনা" class="description">কম্পিউটারকে ১ মিনিট পর রিস্টার্ট করার কমান্ড পাঠায়।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">ওয়ালপেপার পরিবর্তন</td>
+                    <td data-label="কমান্ড"><code>/set_wallpaper [ছবির URL]</code></td>
+                    <td data-label="বর্ণনা" class="description">URL থেকে ছবি ডাউনলোড করে ডেস্কটপ ওয়ালপেপার সেট করে।</td>
+                </tr>
+                 <tr>
+                    <td data-label="ফিচার" class="feature-name">অডিও প্লে</td>
+                    <td data-label="কমান্ড"><code>/play_audio [অডিওর URL]</code></td>
+                    <td data-label="বর্ণনা" class="description">URL থেকে অডিও ডাউনলোড করে কম্পিউটারে প্লে করে।</td>
+                </tr>
+                 <tr>
+                    <td data-label="ফিচার" class="feature-name">অডিও বন্ধ</td>
+                    <td data-label="কমান্ড"><code>/stop_audio</code></td>
+                    <td data-label="বর্ণনা" class="description">চলমান অডিও প্লেব্যাক বন্ধ করে।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">পপ-আপ মেসেজ</td>
+                    <td data-label="কমান্ড"><code>/popup [টাইটেল]; [মেসেজ]</code></td>
+                    <td data-label="বর্ণনা" class="description">কম্পিউটারের স্ক্রিনে একটি কাস্টম পপ-আপ মেসেজ দেখায়।</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- সীমাবদ্ধতা ও অ্যাক্সেস কন্ট্রোল -->
+        <h2>সীমাবদ্ধতা ও অ্যাক্সেস কন্ট্রোল</h2>
+        <table>
+             <thead>
+                <tr>
+                    <th>ফিচার</th>
+                    <th>কমান্ড</th>
+                    <th>বর্ণনা</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">ওয়েবসাইট ব্লক</td>
+                    <td data-label="কমান্ড"><code>/block [website.com]</code></td>
+                    <td data-label="বর্ণনা" class="description">নির্দিষ্ট ওয়েবসাইট ব্লক করে দেয় (অ্যাডমিন প্রিভিলেজ প্রয়োজন)।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">ওয়েবসাইট আনব্লক</td>
+                    <td data-label="কমান্ড"><code>/unblock [website.com]</code></td>
+                    <td data-label="বর্ণনা" class="description">ব্লক করা ওয়েবসাইটকে আনব্লক করে (অ্যাডমিন প্রিভিলেজ প্রয়োজন)।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">ইনপুট লক</td>
+                    <td data-label="কমান্ড"><code>/lock_input [সেকেন্ড]</code></td>
+                    <td data-label="বর্ণনা" class="description">নির্দিষ্ট সময়ের জন্য মাউস ও কি-বোর্ড লক করে দেয়।</td>
+                </tr>
+                 <tr>
+                    <td data-label="ফিচার" class="feature-name">ইনপুট আনলক</td>
+                    <td data-label="কমান্ড"><code>/unlock_input</code></td>
+                    <td data-label="বর্ণনা" class="description">লক করা মাউস ও কি-বোর্ড পুনরায় চালু করে।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">স্ক্রিন লক</td>
+                    <td data-label="কমান্ড"><code>/lock_screen</code></td>
+                    <td data-label="বর্ণনা" class="description">কম্পিউটারকে তাৎক্ষণিকভাবে লক করে দেয় (Windows Lock Screen)।</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- ফাইল এনক্রিপশন -->
+        <h2>ফাইল এনক্রিপশন</h2>
+        <table>
+             <thead>
+                <tr>
+                    <th>ফিচার</th>
+                    <th>কমান্ড</th>
+                    <th>বর্ণনা</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">ফোল্ডার এনক্রিপ্ট</td>
+                    <td data-label="কমান্ড"><code>/encrypt_folder [পাথ]</code></td>
+                    <td data-label="বর্ণনা" class="description">নির্দিষ্ট ফোল্ডারের ভেতরের সমস্ত ফাইল এনক্রিপ্ট করে।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">ফোল্ডার ডিক্রিপ্ট</td>
+                    <td data-label="কমান্ড"><code>/decrypt_folder [পাথ]</code></td>
+                    <td data-label="বর্ণনা" class="description">এনক্রিপ্ট করা ফোল্ডারের ফাইলগুলো ডিক্রিপ্ট করে।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">সিস্টেম ফাইল এনক্রিপ্ট</td>
+                    <td data-label="কমান্ড"><code>/encrypt_all [.jpg .pdf]</code></td>
+                    <td data-label="বর্ণনা" class="description">সমস্ত ইউজার প্রোফাইল থেকে নির্দিষ্ট ধরনের ফাইল খুঁজে এনক্রিপ্ট করে।</td>
+                </tr>
+                 <tr>
+                    <td data-label="ফিচার" class="feature-name">সিস্টেম ফাইল ডিক্রিপ্ট</td>
+                    <td data-label="কমান্ড"><code>/decrypt_all [.jpg .pdf]</code></td>
+                    <td data-label="বর্ণনা" class="description">এনক্রিপ্ট করা সিস্টেম ফাইলগুলো ডিক্রিপ্ট করে।</td>
+                </tr>
+                <tr>
+                    <td data-label="ফিচার" class="feature-name">এনক্রিপশন কী</td>
+                    <td data-label="কমান্ড"><code>/get_key</code></td>
+                    <td data-label="বর্ণনা" class="description">ফাইল ডিক্রিপ্ট করার জন্য প্রয়োজনীয় <code>secret.key</code> ফাইলটি পাঠায়।</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+</html>

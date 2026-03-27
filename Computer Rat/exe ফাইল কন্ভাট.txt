@@ -1,0 +1,19 @@
+pyinstaller --onefile --windowed --name "SystemMonitor" test-2.py
+
+pyinstaller --onefile --windowed --name "FileAutoRun" installer.py
+
+
+Cযদি উপরের কমান্ডটি কাজ না করে (Plan B)
+যদি কোনো অজানা কারণে (যেমন: আপনার উইন্ডোজ ভার্সন বা নিরাপত্তা নীতি) উপরের কমান্ডটি কাজ না করে, তাহলে একটি বিকল্প কিন্তু কম কার্যকর উপায় আছে।
+শর্টকাট তৈরি করুন:
+C:\ProgramData\Wow_File ফোল্ডারে যান।
+SystemMonitor.exe ফাইলটির উপর রাইট-ক্লিক করে Create shortcut সিলেক্ট করুন।
+শর্টকাটটিকে অ্যাডমিন মোড দিন:
+নতুন তৈরি হওয়া শর্টকাটটির উপর রাইট-ক্লিক করে Properties-এ যান।
+Shortcut ট্যাবের নিচে Advanced... বাটনে ক্লিক করুন।
+"Run as administrator" বক্সটিতে টিক চিহ্ন দিয়ে OK চাপুন, তারপর আবার OK চাপুন।
+Startup ফোল্ডারে শর্টকাটটি রাখুন:
+কীবোর্ডে Win + R চেপে Run বক্স খুলুন।
+টাইপ করুন shell:common startup এবং Enter চাপুন। Startup ফোল্ডারটি খুলে যাবে।
+এবার C:\ProgramData\Wow_File ফোল্ডার থেকে আপনার অ্যাডমিন মোডে সেট করা শর্টকাটটিকে কাট (Ctrl+X) করে এই Startup ফোল্ডারে পেস্ট (Ctrl+V) করে দিন।
+

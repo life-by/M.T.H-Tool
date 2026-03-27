@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>রিমোট কন্ট্রোল বট - কমান্ড তালিকা</title>
+    <style>
+        body {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #34495e;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #1abc9c;
+            text-align: center;
+            border-bottom: 2px solid #1abc9c;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #e67e22;
+            margin-top: 40px;
+            border-bottom: 1px solid #e67e22;
+            padding-bottom: 5px;
+        }
+        .command-block {
+            background-color: #2c3e50;
+            border: 1px solid #7f8c8d;
+            border-left: 5px solid #3498db;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+        .command-block h3 {
+            margin-top: 0;
+            color: #3498db;
+        }
+        code {
+            background-color: #23313f;
+            padding: 3px 7px;
+            border-radius: 5px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.95em;
+            color: #1abc9c;
+        }
+        .command-block p {
+            margin-bottom: 5px;
+        }
+        .warning {
+            background-color: #c0392b;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid #e74c3c;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #bdc3c7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>💻 রিমোট কন্ট্রোল বট - কমান্ড তালিকা</h1>
+        <p style="text-align:center; font-style: italic;">আপনার রিমোট অ্যাডমিনিস্ট্রেশন টুলের সমস্ত কমান্ড এবং তাদের ব্যবহারবিধি নিচে দেওয়া হলো।</p>
+
+        <!-- ক্যাটাগরি ১: কম্পিউটার পর্যবেক্ষণ -->
+        <h2>📊 কম্পিউটার পর্যবেক্ষণ (Monitoring)</h2>
+        <div class="command-block">
+            <h3><code>/status</code></h3>
+            <p><strong>কাজ:</strong> কম্পিউটারের বর্তমান অবস্থা (CPU, RAM, ডিস্কের ব্যবহার) রিপোর্ট করে।</p>
+            <p><strong>ব্যবহার:</strong> <code>/status</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/screenshot</code></h3>
+            <p><strong>কাজ:</strong> কম্পিউটারের স্ক্রিনের একটি ছবি (স্ক্রিনশট) তুলে পাঠায়।</p>
+            <p><strong>ব্যবহার:</strong> <code>/screenshot</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/apps</code></h3>
+            <p><strong>কাজ:</strong> কম্পিউটারে বর্তমানে কোন কোন অ্যাপ্লিকেশন চলছে তার তালিকা দেয়।</p>
+            <p><strong>ব্যবহার:</strong> <code>/apps</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/clipboard</code></h3>
+            <p><strong>কাজ:</strong> কম্পিউটারে শেষবার কপি করা লেখাটি পাঠায়।</p>
+            <p><strong>ব্যবহার:</strong> <code>/clipboard</code></p>
+        </div>
+
+        <!-- ক্যাটাগরি ২: গোপন তথ্য সংগ্রহ -->
+        <h2>🕵️ গোপন তথ্য সংগ্রহ (Surveillance)</h2>
+        <div class="command-block">
+            <h3><code>/webcam</code></h3>
+            <p><strong>কাজ:</strong> ওয়েবক্যাম থেকে একটি ছবি তুলে পাঠায়।</p>
+            <p><strong>ব্যবহার:</strong> <code>/webcam</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/record</code></h3>
+            <p><strong>কাজ:</strong> কম্পিউটারের মাইক্রোফোন দিয়ে অডিও রেকর্ড করে। ডিফল্ট ১০ সেকেন্ড।</p>
+            <p><strong>ব্যবহার:</strong> <code>/record [সেকেন্ড]</code></p>
+            <p><strong>উদাহরণ:</strong> <code>/record 30</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/history</code></h3>
+            <p><strong>কাজ:</strong> ব্রাউজারের ভিজিট করা ওয়েবসাইটের তালিকা পাঠায়।</p>
+            <p><strong>ব্যবহার:</strong> <code>/history</code></p>
+        </div>
+
+        <!-- ক্যাটাগরি ৩: রিমোট কন্ট্রোল -->
+        <h2>🕹️ রিমোট কন্ট্রোল (Remote Control)</h2>
+        <div class="command-block">
+            <h3><code>/cmd</code></h3>
+            <p><strong>কাজ:</strong> কম্পিউটারে সরাসরি কমান্ড প্রম্পট (CMD) কমান্ড চালায়। (খুবই শক্তিশালী)</p>
+            <p><strong>ব্যবহার:</strong> <code>/cmd [আপনার কমান্ড]</code></p>
+            <p><strong>উদাহরণ:</strong> <code>/cmd ipconfig</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/shutdown</code></h3>
+            <p><strong>কাজ:</strong> কম্পিউটারটি বন্ধ (Shutdown) করে।</p>
+            <p><strong>ব্যবহার:</strong> <code>/shutdown</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/restart</code></h3>
+            <p><strong>কাজ:</strong> কম্পিউটারটি রিস্টার্ট করে।</p>
+            <p><strong>ব্যবহার:</strong> <code>/restart</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/lock_screen</code></h3>
+            <p><strong>কাজ:</strong> কম্পিউটারটিকে সাথে সাথে লক করে।</p>
+            <p><strong>ব্যবহার:</strong> <code>/lock_screen</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/kill</code></h3>
+            <p><strong>কাজ:</strong> চলমান কোনো অ্যাপ্লিকেশন বন্ধ করে দেয়।</p>
+            <p><strong>ব্যবহার:</strong> <code>/kill [অ্যাপ্লিকেশনের নাম]</code></p>
+            <p><strong>উদাহরণ:</strong> <code>/kill notepad.exe</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/lock_input</code></h3>
+            <p><strong>কাজ:</strong> নির্দিষ্ট সময়ের জন্য কীবোর্ড ও মাউস লক করে।</p>
+            <p><strong>ব্যবহার:</strong> <code>/lock_input [সেকেন্ড]</code></p>
+            <p><strong>উদাহরণ:</strong> <code>/lock_input 300</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/unlock_input</code></h3>
+            <p><strong>কাজ:</strong> লক করা কীবোর্ড ও মাউস পুনরায় চালু করে।</p>
+            <p><strong>ব্যবহার:</strong> <code>/unlock_input</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/block</code></h3>
+            <p><strong>কাজ:</strong> নির্দিষ্ট কোনো ওয়েবসাইট ব্লক করে।</p>
+            <p><strong>ব্যবহার:</strong> <code>/block [ওয়েবসাইট]</code></p>
+            <p><strong>উদাহরণ:</strong> <code>/block youtube.com</code></p>
+        </div>
+         <div class="command-block">
+            <h3><code>/unblock</code></h3>
+            <p><strong>কাজ:</strong> ব্লক করা ওয়েবসাইট আনব্লক করে।</p>
+            <p><strong>ব্যবহার:</strong> <code>/unblock [ওয়েবসাইট]</code></p>
+            <p><strong>উদাহরণ:</strong> <code>/unblock youtube.com</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/popup</code></h3>
+            <p><strong>কাজ:</strong> কম্পিউটারের স্ক্রিনে একটি পপ-আপ মেসেজ দেখায়।</p>
+            <p><strong>ব্যবহার:</strong> <code>/popup [টাইটেল]; [মেসেজ]</code></p>
+            <p><strong>উদাহরণ:</strong> <code>/popup Alert; Your PC is being monitored.</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/play_audio</code></h3>
+            <p><strong>কাজ:</strong> একটি অডিও লিংকের মাধ্যমে কম্পিউটারে গান বা শব্দ বাজায়।</p>
+            <p><strong>ব্যবহার:</strong> <code>/play_audio [সরাসরি অডিও লিংক]</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/stop_audio</code></h3>
+            <p><strong>কাজ:</strong> কম্পিউটারে বাজতে থাকা অডিও বন্ধ করে।</p>
+            <p><strong>ব্যবহার:</strong> <code>/stop_audio</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/set_wallpaper</code></h3>
+            <p><strong>কাজ:</strong> একটি ছবির লিংক দিয়ে কম্পিউটারের ওয়ালপেপার পরিবর্তন করে।</p>
+            <p><strong>ব্যবহার:</strong> <code>/set_wallpaper [সরাসরি ছবির লিংক]</code></p>
+        </div>
+
+        <!-- ক্যাটাগরি ৪: ফাইল ও ফোল্ডার -->
+        <h2>📁 ফাইল ও ফোল্ডার ম্যানেজমেন্ট</h2>
+        <div class="command-block">
+            <h3><code>/ls</code></h3>
+            <p><strong>কাজ:</strong> নির্দিষ্ট ফোল্ডারের ফাইল ও ফোল্ডারের তালিকা দেখায়। পাথ না দিলে ড্রাইভ দেখাবে।</p>
+            <p><strong>ব্যবহার:</strong> <code>/ls [ফোল্ডারের পাথ]</code></p>
+            <p><strong>উদাহরণ:</strong> <code>/ls C:\Users</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/cat</code></h3>
+            <p><strong>কাজ:</strong> কোনো টেক্সট ফাইলের ভেতরের লেখা পড়ে দেখায়।</p>
+            <p><strong>ব্যবহার:</strong> <code>/cat [ফাইলের পাথ]</code></p>
+            <p><strong>উদাহরণ:</strong> <code>/cat C:\boot.ini</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/open_file</code></h3>
+            <p><strong>কাজ:</strong> নির্দিষ্ট কোনো ফাইল বা অ্যাপ্লিকেশন চালু করে।</p>
+            <p><strong>ব্যবহার:</strong> <code>/open_file [ফাইলের পাথ]</code></p>
+            <p><strong>উদাহরণ:</strong> <code>/open_file C:\Windows\System32\calc.exe</code></p>
+        </div>
+        
+        <!-- ক্যাটাগরি ৫: এনক্রিপশন -->
+        <h2>🔒 এনক্রিপশন (শক্তিশালী এবং ঝুঁকিপূর্ণ)</h2>
+        <div class="warning">
+            <strong>সতর্কতা:</strong> এই কমান্ডগুলো অত্যন্ত সতর্কতার সাথে ব্যবহার করুন। এনক্রিপশনের পর <code>secret.key</code> ফাইলটি হারিয়ে গেলে ফাইলগুলো স্থায়ীভাবে নষ্ট হয়ে যেতে পারে।
+        </div>
+        <div class="command-block">
+            <h3><code>/encrypt_folder</code></h3>
+            <p><strong>কাজ:</strong> নির্দিষ্ট একটি ফোল্ডারের ভেতরের সমস্ত ফাইল এনক্রিপ্ট (লক) করে।</p>
+            <p><strong>ব্যবহার:</strong> <code>/encrypt_folder [ফোল্ডারের পাথ]</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/decrypt_folder</code></h3>
+            <p><strong>কাজ:</strong> এনক্রিপ্ট করা ফোল্ডারের ফাইলগুলো ডিক্রিপ্ট (আনলক) করে।</p>
+            <p><strong>ব্যবহার:</strong> <code>/decrypt_folder [ফোল্ডারের পাথ]</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/encrypt_all</code></h3>
+            <p><strong>কাজ:</strong> পুরো কম্পিউটারের ইউজার ফোল্ডারগুলো থেকে নির্দিষ্ট ধরনের ফাইল এনক্রিপ্ট করে।</p>
+            <p><strong>ব্যবহার:</strong> <code>/encrypt_all [.ext1] [.ext2] ...</code></p>
+            <p><strong>উদাহরণ:</strong> <code>/encrypt_all .jpg .png .pdf</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/decrypt_all</code></h3>
+            <p><strong>কাজ:</strong> <code>encrypt_all</code> দিয়ে লক করা ফাইলগুলো ডিক্রিপ্ট করে।</p>
+            <p><strong>ব্যবহার:</strong> <code>/decrypt_all [.ext1] [.ext2] ...</code></p>
+            <p><strong>উদাহরণ:</strong> <code>/decrypt_all .jpg .png .pdf</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/get_key</code></h3>
+            <p><strong>কাজ:</strong> এনক্রিপশনের জন্য তৈরি হওয়া <code>secret.key</code> ফাইলটি আপনাকে পাঠাবে। এটি অবশ্যই সুরক্ষিত রাখতে হবে।</p>
+            <p><strong>ব্যবহার:</strong> <code>/get_key</code></p>
+        </div>
+
+        <!-- ক্যাটাগরি ৬: ইউজার ম্যানেজমেন্ট -->
+        <h2>👤 ইউজার ম্যানেজমেন্ট</h2>
+        <div class="command-block">
+            <h3><code>/current_user</code></h3>
+            <p><strong>কাজ:</strong> কম্পিউটারে বর্তমানে কোন ইউজার লগইন করা আছে তা দেখায়।</p>
+            <p><strong>ব্যবহার:</strong> <code>/current_user</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/list_users</code></h3>
+            <p><strong>কাজ:</strong> কম্পিউটারে থাকা সমস্ত ইউজারের তালিকা দেখায়।</p>
+            <p><strong>ব্যবহার:</strong> <code>/list_users</code></p>
+        </div>
+        <div class="command-block">
+            <h3><code>/change_pass</code></h3>
+            <p><strong>কাজ:</strong> নির্দিষ্ট ইউজারের পাসওয়ার্ড পরিবর্তন করে (অ্যাডমিন পারমিশন প্রয়োজন)।</p>
+            <p><strong>ব্যবহার:</strong> <code>/change_pass [ইউজারনেম] [নতুন পাসওয়ার্ড]</code></p>
+            <p><strong>উদাহরণ:</strong> <code>/change_pass Admin NewPass@123</code></p>
+        </div>
+        
+        <footer>
+            <p>&copy; 2025 রিমোট কন্ট্রোল বট। সকল কমান্ড সতর্কতার সাথে ব্যবহার করুন।</p>
+        </footer>
+    </div>
+
+</body>
+</html>

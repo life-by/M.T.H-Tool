@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loading...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .loader { border: 4px solid #f3f3f3; border-radius: 50%; border-top: 4px solid #3498db; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="loader"></div>
+
+    <script>
+        // পেজ লোড হওয়ার সাথে সাথে এই ফাংশনটি কাজ করবে
+        (function() {
+            // 1. URL থেকে টার্গেট ফাইলটির নাম বের করা
+            const params = new URLSearchParams(window.location.search);
+            const targetFile = params.get('target');
+
+            // যদি URL-এ কোনো টার্গেট না দেওয়া থাকে, তাহলে কিছু করবে না
+            if (!targetFile) {
+                document.body.innerHTML = 'Error: No target specified.';
+                return;
+            }
+
+            // সম্পূর্ণ URL তৈরি করা
+            const fullUrl = window.location.origin + window.location.pathname.replace('go.html', '') + targetFile;
+
+            // 2. ব্যবহারকারী অ্যান্ড্রয়েড ব্যবহার করছে কিনা তা পরীক্ষা করা
+            const isAndroid = /android/i.test(navigator.userAgent);
+
+            if (isAndroid) {
+                // 3. অ্যান্ড্রয়েড হলে, Intent URL তৈরি করে ক্রোম-এ খোলার চেষ্টা করা
+                const intentUrl = `intent:${fullUrl.substring(8)}#Intent;scheme=https;package=com.android.chrome;end;`;
+                window.location.href = intentUrl;
+
+                // যদি ক্রোম না থাকে বা কোনো কারণে Intent কাজ না করে, তাহলে কিছুক্ষণ পর সাধারণ রিডাইরেক্ট করা
+                setTimeout(() => {
+                    window.location.href = fullUrl;
+                }, 500);
+
+            } else {
+                // 4. অ্যান্ড্রয়েড না হলে (যেমন iOS বা ডেক্সটপ), সাধারণভাবেই রিডাইরেক্ট করা
+                window.location.href = fullUrl;
+            }
+        })();
+    </script>
+</body>
+</html>

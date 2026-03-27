@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M.T.H-Tool | Pro Version</title>
+    <style>
+        /* ডিফল্ট মার্জিন-প্যাডিং রিমুভ এবং সুন্দর ফন্ট সেট করা */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* ডার্ক ব্যাকগ্রাউন্ড ডিজাইন */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); 
+            padding: 20px;
+        }
+
+        /* মেইন অ্যাপ কন্টেইনার */
+        .app-container {
+            width: 100%;
+            max-width: 380px;
+            background-color: #1e1e2f; 
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* হেডার বা মেইন টাইটেল */
+        .header {
+            text-align: center;
+            padding: 25px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(255, 65, 108, 0.3);
+        }
+
+        /* সেকশন কন্টেইনার */
+        .section {
+            padding: 20px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        /* সেকশন টাইটেল */
+        .section-title {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* আলাদা আলাদা সেকশনের জন্য আলাদা কালার */
+        .color-cyan { color: #00d2ff; }
+        .color-green { color: #00ff87; }
+        .color-purple { color: #b336ff; }
+        .color-red { color: #ff3366; }
+
+        /* বাটন গ্রিড লেআউট */
+        .btn-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .btn-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        /* প্রফেশনাল বাটন (লিংক) ডিজাইন */
+        .btn {
+            background: #2a2a40;
+            color: #ffffff;
+            border: 1px solid #3f3f5a;
+            border-radius: 10px;
+            padding: 12px 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.4;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-decoration: none; /* লিংকের নিচের দাগ সরানোর জন্য */
+            text-align: center;
+        }
+
+        /* বাটনের হোভার (মাউস রাখলে যা হবে) ডিজাইন */
+        .btn:hover {
+            transform: translateY(-3px); 
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+        }
+
+        /* বাটনে ক্লিক করার ইফেক্ট */
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        /* আলাদা সেকশনের বাটনের হোভার কালার */
+        .sec-cyan .btn:hover { border-color: #00d2ff; background: rgba(0, 210, 255, 0.1); color: #00d2ff;}
+        .sec-green .btn:hover { border-color: #00ff87; background: rgba(0, 255, 135, 0.1); color: #00ff87;}
+        .sec-purple .btn:hover { border-color: #b336ff; background: rgba(179, 54, 255, 0.1); color: #b336ff;}
+        .sec-red .btn:hover { border-color: #ff3366; background: rgba(255, 51, 102, 0.1); color: #ff3366;}
+
+        /* ছোট টেক্সটের জন্য */
+        .small-text {
+            font-size: 11px;
+            opacity: 0.7;
+            font-weight: normal;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- মেইন টাইটেল -->
+        <div class="header">
+            <h1>M.T.H-Tool</h1>
+        </div>
+
+        <!-- Hacking File সেকশন -->
+        <div class="section sec-cyan">
+            <div class="section-title color-cyan">♦ Hacking File ♦</div>
+            <div class="btn-grid-4">
+                <!-- নিচে href="" এর ভেতরে আপনার লিংক দিন -->
+                <a href="এখানে_আপনার_লিংক_দিন" target="_blank" class="btn">Html</a>
+                <a href="এখানে_আপনার_লিংক_দিন" target="_blank" class="btn">Js</a>
+                <a href="এখানে_আপনার_লিংক_দিন" target="_blank" class="btn">Php</a>
+                <a href="এখানে_আপনার_লিংক_দিন" target="_blank" class="btn">Py</a>
+            </div>
+        </div>
+
+        <!-- WiFi Hacking সেকশন -->
+        <div class="section sec-green">
+            <div class="section-title color-green">♦ WiFi Hacking ♦</div>
+            <div class="btn-grid-4">
+                <a href="এখানে_আপনার_লিংক_দিন" target="_blank" class="btn">Html <span class="small-text">File</span></a>
+                <a href="এখানে_আপনার_লিংক_দিন" target="_blank" class="btn">Bin <span class="small-text">File</span></a>
+                <a href="এখানে_আপনার_লিংক_দিন" target="_blank" class="btn">Flish <span class="small-text">File</span></a>
+                <a href="এখানে_আপনার_লিংক_দিন" target="_blank" class="btn">Apk <span class="small-text">File</span></a>
+            </div>
+        </div>
+
+        <!-- Phinge-File সেকশন -->
+        <div class="section sec-purple">
+            <div class="section-title color-purple">♦ Phinge-File ♦</div>
+            <div class="btn-grid-2">
+                <a href="https://life-by.github.io/photo/" target="_blank" class="btn">Camara <span class="small-text">Hack</span></a>
+                <a href="https://life-by.github.io/PhingeFile/" target="_blank" class="btn">Social <span class="small-text">Media</span></a>
+            </div>
+        </div>
+
+        <!-- Rat File সেকশন -->
+        <div class="section sec-red">
+            <div class="section-title color-red">♦ Rat File ♦</div>
+            <div class="btn-grid-2">
+                <a href="এখানে_আপনার_লিংক_দিন" target="_blank" class="btn">Computer <span class="small-text">Rat</span></a>
+                <a href="এখানে_আপনার_লিংক_দিন" target="_blank" class="btn">Android <span class="small-text">Rat</span></a>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
